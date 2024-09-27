@@ -5,29 +5,17 @@ class BankAccount {
         this.saldo = 0;
     }
 
-    tambahSaldo() {
-        const saldoTambahan = window.prompt(
-            "Masukkan jumlah saldo yang ingin ditambahkan (hanya angka): "
-        );
+    deposit(amount) {
+        if (amount === null) return;
 
-        if (saldoTambahan === null) return;
+        if (isNaN(amount) || !/^\d+$/.test(amount))
+            return "Maaf, inputan tidak valid. Hanya angka yang diperbolehkan.";
+        if (amount <= 0)
+            return "Maaf, jumlah saldo tidak boleh kurang atau sama dengan 0.";
 
-        if (isNaN(saldoTambahan) || !/^\d+$/.test(saldoTambahan))
-            return alert(
-                "Maaf, inputan tidak valid. Hanya angka yang diperbolehkan."
-            );
-        if (saldoTambahan <= 0)
-            return alert(
-                `Maaf, jumlah saldo tidak boleh kurang atau sama dengan 0.\nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`
-            );
+        this.saldo += parseFloat(amount);
 
-        this.saldo += parseFloat(saldoTambahan);
-
-        alert(
-            `Selamat saldo berhasil ditambahkan. \nSaldo anda sekarang: ${this.formatRupiah(
-                this.saldo
-            )}`
-        );
+        return `Selamat saldo berhasil ditambahkan. \nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`;
     }
 
     kurangiSaldo() {
