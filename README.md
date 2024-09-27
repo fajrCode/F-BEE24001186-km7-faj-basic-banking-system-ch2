@@ -3,6 +3,9 @@
 Studi Kasus Challenge 2
 Dalam studi kasus ini, kita akan membuat sebuah Basic Banking System sederhana menggunakan konsep Pemrograman Berorientasi Objek (OOP) dan mensimulasikan operasi transaksi yang asynchronous.
 
+Flowchart
+![Alt text](flowchart.webp)
+
 Langkah Penggunaan:
 1. Pastikan di local komputer telah terinstall nodejs, dan git
 2. Clone repositori project dengan perintah ```git clone https://github.com/fajrCode/F-BEE24001186-km7-faj-basic-banking-system-ch2.git```
