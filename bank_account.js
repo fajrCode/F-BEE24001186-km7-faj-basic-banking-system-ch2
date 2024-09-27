@@ -18,33 +18,21 @@ class BankAccount {
         return `Selamat saldo berhasil ditambahkan. \nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`;
     }
 
-    kurangiSaldo() {
-        const saldoKurang = window.prompt(
-            "Masukkan jumlah saldo yang ingin dikurangi (hanya angka): "
-        );
+    withdraw(amount) {
+        if (amount === null) return;
 
-        if (saldoKurang === null) return;
+        if (isNaN(amount) || !/^\d+$/.test(amount))
+            return "Maaf, inputan tidak valid. Hanya angka yang diperbolehkan.";
 
-        if (isNaN(saldoKurang) || !/^\d+$/.test(saldoKurang))
-            return alert(
-                "Maaf, inputan tidak valid. Hanya angka yang diperbolehkan."
-            );
+        if (amount <= 0)
+            return "Maaf, jumlah saldo tidak boleh kurang atau sama dengan 0.";
 
-        if (saldoKurang <= 0)
-            return alert(
-                "Maaf, jumlah saldo tidak boleh kurang atau sama dengan 0"
-            );
+        if (amount > this.saldo)
+            return `Maaf, saldo anda tidak cukup.\nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`;
 
-        if (saldoKurang > this.saldo)
-            return alert(`Maaf, saldo anda tidak cukup.\nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`);
+        this.saldo -= parseFloat(amount);
 
-        this.saldo -= parseFloat(saldoKurang);
-
-        alert(
-            `Selamat saldo berhasil dikurangi. \nSaldo anda sekarang: ${this.formatRupiah(
-                this.saldo
-            )}`
-        );
+        return `Selamat saldo berhasil dikurangi. \nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`
     }
 
     formatRupiah(angka) {
