@@ -43,13 +43,13 @@ class BankSystem extends BankAccount {
 
         switch (option) {
             case '1':
-                await this.handleDeposit();
+                await this.#handleDeposit();
                 break;
             case '2':
-                await this.handleWithdraw();
+                await this.#handleWithdraw();
                 break;
             case '3':
-                await this.checkSaldo();
+                await this.#checkSaldo();
                 break;
             case '4':
                 console.log("Terima kasih telah menggunakan sistem perbankan kami.");
@@ -70,7 +70,7 @@ class BankSystem extends BankAccount {
      * 
      */
 
-    async handleDeposit(){
+    async #handleDeposit(){
         const amount = await input('Masukkan jumlah saldo yang akan ditambahkan: ');
         try {
             if (this.validateAmount(amount)) {
@@ -99,7 +99,7 @@ class BankSystem extends BankAccount {
      * @async
      */
 
-    async handleWithdraw() {
+    async #handleWithdraw() {
         const amount = await input('Masukkan jumlah saldo yang ingin ditarik: ');
         try {
             if (this.validateAmount(amount)) {
@@ -131,7 +131,7 @@ class BankSystem extends BankAccount {
      * @async
      */
 
-    checkSaldo() {
+    #checkSaldo() {
         console.log('Memproses cek saldo...');
         new Promise((resolve) => {
             setTimeout(() => {
@@ -168,6 +168,7 @@ class BankSystem extends BankAccount {
 async function main() {
     const name = await input('Masukkan nama anda: ');
     const bankSystem = new BankSystem(name);
+    await bankSystem.deposit(1000000);
     await bankSystem.mainmenu();
 }
 
