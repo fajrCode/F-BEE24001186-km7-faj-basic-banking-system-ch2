@@ -5,21 +5,21 @@ class BankAccount {
         this.saldo = 0;
     }
 
-    deposit(amount) {
+    _deposit(amount) {
         this.saldo += parseFloat(amount);
-        return this.formatRupiah(this.saldo);
+        return this.#formatRupiah(this.saldo);
     }
 
-    withdraw(amount) {
+    _withdraw(amount) {
         this.saldo -= parseFloat(amount);
-        return this.formatRupiah(this.saldo);
+        return this.#formatRupiah(this.saldo);
     }
 
-    getSaldo() {
-        return this.formatRupiah(this.saldo);
+    _getSaldo() {
+        return this.#formatRupiah(this.saldo);
     }
 
-    formatRupiah(number) {
+    #formatRupiah(number) {
         let rupiah = "";
         const numberrev = number.toString().split("").reverse().join("");
         for (let i = 0; i < numberrev.length; i++) {
