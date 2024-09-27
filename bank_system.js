@@ -1,6 +1,6 @@
 const BankAccount = require('./bank_account');
 const readline = require('readline');
-const { InvalidInput, InvalidAmount } = require('./errors');
+const { InvalidInput, InvalidAmount } = require('./custom_error');
 
 // Create readline interface
 const rl = readline.createInterface({
@@ -30,16 +30,16 @@ class BankSystem extends BankAccount {
      * @async
      */
 
-    async menu() {
+    async mainmenu() {
         console.log(`\nSelamat datang, ${this.nama}!`);
         console.log(`Nomor Rekening: ${this.nomorRekening}`);
-        console.log("=== Menu Utama ===");
+        console.log("\n=== Menu Utama ===");
         console.log("1. Deposit");
         console.log("2. Withdraw");
         console.log("3. Cek Saldo");
-        console.log("4. Keluar");
+        console.log("4. Keluar\n");
 
-        const option = await askQuestion('Pilih menu (1-4): ');
+        const option = await input('Pilih menu (1-4): ');
 
         switch (option) {
             case '1':
@@ -49,7 +49,7 @@ class BankSystem extends BankAccount {
                 await this.handleWithdraw();
                 break;
             case '3':
-                this.checkSaldo();
+                await this.checkSaldo();
                 break;
             case '4':
                 console.log("Terima kasih telah menggunakan sistem perbankan kami.");
@@ -59,7 +59,7 @@ class BankSystem extends BankAccount {
             default:
                 // Menampilkan kembali menu jika input tidak valid
                 console.log("Pilihan tidak valid.");
-                await this.menu(); 
+                await this.mainmenu(); 
         }
     }
 
@@ -80,12 +80,16 @@ class BankSystem extends BankAccount {
                 setTimeout(() => {
                     const newBalance = this.deposit(amount);
                     console.log(`Deposit berhasil! Saldo baru: ${newBalance}`);
-                    this.menu();
+                    setTimeout(() => {
+                        this.mainmenu();
+                    }, 1500);
                 }, 2500); 
             }
         } catch (error) {
             console.log(`Error: ${error.message}`);
-            await this.menu();
+            setTimeout(() => {
+                this.mainmenu();
+            }, 1000);
         }
     }
 
@@ -108,27 +112,42 @@ class BankSystem extends BankAccount {
                 setTimeout(() => {
                     const newBalance = this.withdraw(amount);
                     console.log(`Penarikan berhasil! Saldo baru: ${newBalance}`);
-                    this.menu();
+                    setTimeout(() => {
+                        this.mainmenu();
+                    }, 1500);
                 }, 2500);
             }
         } catch (error) {
             console.log(`Error: ${error.message}`);
-            await this.menu();
+            setTimeout(() => {
+                this.mainmenu();
+            }, 1000);
         }
     }
 
     /**
-     * Check saldo
-     * @returns {void}
+     * Check saldo process
+     * @returns {Promise<void>}
+     * @async
      */
 
     checkSaldo() {
-        console.log('Memproses deposit...');
-        setTimeout(() => {
-            console.log(`Saldo anda saat ini: ${this.getSaldo()}`);
-            this.menu();
-        }, 2000);
-        this.menu(); 
+        console.log('Memproses cek saldo...');
+        new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(`Saldo anda saat ini: ${this.getSaldo()}`);
+            }, 2000);
+        }).then((message) => {
+            console.log(message);
+            return new Promise((resolve) => setTimeout(resolve, 1500));
+        }).then(() => {
+            this.mainmenu();
+        }).catch((error) => {
+            console.log(`Error: ${error.message}`);
+            setTimeout(() => {
+                this.mainmenu();
+            }, 1000);
+        });
     }
 
     // Validation for amount input
@@ -150,7 +169,6 @@ async function main() {
     const name = await input('Masukkan nama anda: ');
     const bankSystem = new BankSystem(name);
     await bankSystem.mainmenu();
-    rl.close();
 }
 
 main();
