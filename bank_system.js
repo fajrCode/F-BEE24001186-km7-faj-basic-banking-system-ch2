@@ -1,10 +1,12 @@
 const BankAccount = require('./bank_account');
 const readline = require('readline');
 
+// Membuat antarmuka untuk membaca input dari terminal
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+
 
 const input = (text) => {
     return new Promise((resolve) => rl.question(text, resolve));
@@ -14,6 +16,12 @@ class BankSystem extends BankAccount {
     constructor(name){
         super(name);
     }
+
+    /**
+     * Main menu of the bank system application
+     * @returns {Promise<void>}
+     * @async
+     */
 
     async mainmenu(){
         console.log('1. Tarik Tunai');
@@ -38,12 +46,26 @@ class BankSystem extends BankAccount {
         await this.mainmenu();
     }
 
+    /**
+     * Handle withdraw process
+     * @returns {Promise<void>}
+     * @async
+     */
+
     async handleWithdraw() {
         this.saldo = 1000000;
         const amount = await input('Masukkan jumlah saldo yang ingin ditarik: ');
         const result = this.withdraw(amount);
         console.log(result);
     }
+
+    /**
+     * Handle deposit process
+     * @returns {Promise<void>}
+     * @async
+     * 
+     */
+
     async handleDeposit(){
         const amount = await input('Masukkan jumlah saldo yang akan ditambahkan: ');
         console.log(this.deposit(amount));
