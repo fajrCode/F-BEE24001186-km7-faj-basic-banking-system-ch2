@@ -1,4 +1,4 @@
-class AkunBank {
+class BankAccount {
     constructor(nama) {
         this.nama = nama;
         this.saldo = 0;
