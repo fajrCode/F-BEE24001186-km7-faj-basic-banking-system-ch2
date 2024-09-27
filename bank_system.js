@@ -64,35 +64,6 @@ class BankSystem extends BankAccount {
     }
 
     /**
-     * Handle withdraw process
-     * @returns {Promise<void>}
-     * @async
-     */
-
-    async handleWithdraw() {
-        this.saldo = 1000000;
-        const amount = await input('Masukkan jumlah saldo yang ingin ditarik: ');
-        try {
-            if (this.validateAmount(amount)) {
-                if (amount > this.saldo) {
-                    throw new InvalidAmount(`Maaf, saldo anda tidak cukup. Saldo saat ini: ${this.getSaldo()}`);
-                }
-                console.log('Memproses penarikan...');
-
-                // Delay withdraw process for 2 seconds
-                setTimeout(() => {
-                    const newBalance = this.withdraw(amount);
-                    console.log(`Penarikan berhasil! Saldo baru: ${newBalance}`);
-                    this.menu();
-                }, 2000);
-            }
-        } catch (error) {
-            console.log(`Error: ${error.message}`);
-            await this.menu();
-        }
-    }
-
-    /**
      * Handle deposit process
      * @returns {Promise<void>}
      * @async
@@ -101,7 +72,49 @@ class BankSystem extends BankAccount {
 
     async handleDeposit(){
         const amount = await input('Masukkan jumlah saldo yang akan ditambahkan: ');
-        console.log(this.deposit(amount));
+        try {
+            if (this.validateAmount(amount)) {
+                console.log('Memproses deposit...');
+                
+                // Delay deposit process for 2.5 seconds
+                setTimeout(() => {
+                    const newBalance = this.deposit(amount);
+                    console.log(`Deposit berhasil! Saldo baru: ${newBalance}`);
+                    this.menu();
+                }, 2500); 
+            }
+        } catch (error) {
+            console.log(`Error: ${error.message}`);
+            await this.menu();
+        }
+    }
+
+    /**
+     * Handle withdraw process
+     * @returns {Promise<void>}
+     * @async
+     */
+
+    async handleWithdraw() {
+        const amount = await input('Masukkan jumlah saldo yang ingin ditarik: ');
+        try {
+            if (this.validateAmount(amount)) {
+                if (amount > this.saldo) {
+                    throw new InvalidAmount(`Maaf, saldo anda tidak cukup. Saldo saat ini: ${this.getSaldo()}`);
+                }
+                console.log('Memproses penarikan...');
+
+                // Delay withdraw process for 2.5 seconds
+                setTimeout(() => {
+                    const newBalance = this.withdraw(amount);
+                    console.log(`Penarikan berhasil! Saldo baru: ${newBalance}`);
+                    this.menu();
+                }, 2500);
+            }
+        } catch (error) {
+            console.log(`Error: ${error.message}`);
+            await this.menu();
+        }
     }
 
     /**
