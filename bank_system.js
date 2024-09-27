@@ -10,19 +10,23 @@ const input = (text) => {
     return new Promise((resolve) => rl.question(text, resolve));
 };
 
-async function main() {
-    const nama = await input('Masukkan nama anda: ');
-    const bankAccount = new BankAccount(nama);
+class BankSystem extends BankAccount {
+    constructor(name){
+        super(name);
+    }
 
-    console.log(nama, bankAccount.accountnumber);
-    console.log(bankAccount.deposit(1000000));
-    console.log(bankAccount.deposit('1000000'));
-    console.log(bankAccount.deposit(0));
+    async handleDeposit(){
+        const amount = await input('Masukkan jumlah saldo yang akan ditambahkan: ');
+        console.log(this.deposit(amount));
+    }
+
+}
+
+async function main() {
+    const name = await input('Masukkan nama anda: ');
+    const bankSystem = new BankSystem(name);
+    console.log(`Selamat datang, ${name}!`);
+    await bankSystem.handleDeposit();
 }
 
 main();
-// const bankAccount = new BankAccount('John Doe');
-
-// console.log(bankAccount.deposit(1000000));
-// console.log(bankAccount.deposit('1000000'));
-// console.log(bankAccount.deposit(0));
