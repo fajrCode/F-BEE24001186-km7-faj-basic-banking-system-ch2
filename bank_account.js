@@ -15,7 +15,7 @@ class BankAccount {
 
         this.saldo += parseFloat(amount);
 
-        return `Selamat saldo berhasil ditambahkan. \nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`;
+        return `Selamat saldo berhasil ditambahkan. \nSaldo anda sekarang: ${this.#formatRupiah(this.saldo)}`;
     }
 
     withdraw(amount) {
@@ -28,18 +28,18 @@ class BankAccount {
             return "Maaf, jumlah saldo tidak boleh kurang atau sama dengan 0.";
 
         if (amount > this.saldo)
-            return `Maaf, saldo anda tidak cukup.\nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`;
+            return `Maaf, saldo anda tidak cukup.\nSaldo anda sekarang: ${this.#formatRupiah(this.saldo)}`;
 
         this.saldo -= parseFloat(amount);
 
-        return `Selamat saldo berhasil dikurangi. \nSaldo anda sekarang: ${this.formatRupiah(this.saldo)}`
+        return `Selamat saldo berhasil dikurangi. \nSaldo anda sekarang: ${this.#formatRupiah(this.saldo)}`
     }
 
-    formatRupiah(angka) {
+    #formatRupiah(number) {
         let rupiah = "";
-        const angkarev = angka.toString().split("").reverse().join("");
-        for (let i = 0; i < angkarev.length; i++) {
-            if (i % 3 === 0) rupiah += angkarev.substr(i, 3) + ".";
+        const numberrev = number.toString().split("").reverse().join("");
+        for (let i = 0; i < numberrev.length; i++) {
+            if (i % 3 === 0) rupiah += numberrev.substr(i, 3) + ".";
         }
         return (
             "Rp. " +
@@ -51,36 +51,3 @@ class BankAccount {
     }
 
 }
-const nama = prompt("Masukkan nama anda: ") || "User";
-const akunBank = new AkunBank(nama);
-
-document.getElementById("username").innerHTML = nama;
-
-function menu() {
-    const menu = parseInt(window.prompt(`Selamat datang ${nama} 🤩.\nSilahkan pilih menu yang ingin diakses (1,2,3,4):
-    1. Tambah Saldo
-    2. Kurangi Saldo
-    3. Keluar
-    `));
-
-    switch (menu) {
-        case 1:
-            akunBank.tambahSaldo();
-            break;
-        case 2:
-            akunBank.kurangiSaldo();
-            break;
-        case 3:
-            alert("Terima kasih telah menggunakan layanan kami.");
-            break;
-        default:
-            alert("Maaf, menu tidak tersedia.");
-            menu();
-    }
-
-    const currentSaldo = document.getElementById("current_saldo");
-    currentSaldo.innerHTML = akunBank.formatRupiah(akunBank.saldo);
-
-}
-
-menu();
