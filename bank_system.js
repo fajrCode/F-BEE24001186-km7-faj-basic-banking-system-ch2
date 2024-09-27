@@ -2,25 +2,25 @@ const BankAccount = require('./bank_account');
 const readline = require('readline');
 const { InvalidInput, InvalidAmount } = require('./custom_error');
 
-// Create readline interface
+// Membuat instance dari readline.Interface
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-// function for terminal input
+//  Fungsi untuk input dari user
 const input = (text) => {
     return new Promise((resolve) => rl.question(text, resolve));
 };
 
-// function for generating account number
+// fungsi untuk generate nomor rekening
 const generateAccountNumber = () => {
     return Math.floor(1000000000 + Math.random() * 9000000000).toString();
 };
 
 class BankSystem extends BankAccount {
     constructor(nama) {
-        const nomorRekening = generateAccountNumber(); // Nomor rekening dihasilkan secara otomatis
+        const nomorRekening = generateAccountNumber();
         super(nama, nomorRekening);
     }
 
@@ -59,7 +59,9 @@ class BankSystem extends BankAccount {
             default:
                 // Menampilkan kembali menu jika input tidak valid
                 console.log("Pilihan tidak valid.");
-                await this.mainmenu(); 
+                setTimeout(() => {
+                    this.mainmenu();
+                }, 1500);
         }
     }
 
@@ -73,12 +75,12 @@ class BankSystem extends BankAccount {
     async #handleDeposit(){
         const amount = await input('Masukkan jumlah saldo yang akan ditambahkan: ');
         try {
-            if (this.validateAmount(amount)) {
+            if (this.#validateAmount(amount)) {
                 console.log('Memproses deposit...');
                 
                 // Delay deposit process for 2.5 seconds
                 setTimeout(() => {
-                    const newBalance = this.deposit(amount);
+                    const newBalance = this._deposit(amount);
                     console.log(`Deposit berhasil! Saldo baru: ${newBalance}`);
                     setTimeout(() => {
                         this.mainmenu();
@@ -89,7 +91,7 @@ class BankSystem extends BankAccount {
             console.log(`Error: ${error.message}`);
             setTimeout(() => {
                 this.mainmenu();
-            }, 1000);
+            }, 1500);
         }
     }
 
@@ -102,15 +104,15 @@ class BankSystem extends BankAccount {
     async #handleWithdraw() {
         const amount = await input('Masukkan jumlah saldo yang ingin ditarik: ');
         try {
-            if (this.validateAmount(amount)) {
+            if (this.#validateAmount(amount)) {
                 if (amount > this.saldo) {
-                    throw new InvalidAmount(`Maaf, saldo anda tidak cukup. Saldo saat ini: ${this.getSaldo()}`);
+                    throw new InvalidAmount(`Maaf, saldo anda tidak cukup. Saldo saat ini: ${this._getSaldo()}`);
                 }
                 console.log('Memproses penarikan...');
 
                 // Delay withdraw process for 2.5 seconds
                 setTimeout(() => {
-                    const newBalance = this.withdraw(amount);
+                    const newBalance = this._withdraw(amount);
                     console.log(`Penarikan berhasil! Saldo baru: ${newBalance}`);
                     setTimeout(() => {
                         this.mainmenu();
@@ -121,7 +123,7 @@ class BankSystem extends BankAccount {
             console.log(`Error: ${error.message}`);
             setTimeout(() => {
                 this.mainmenu();
-            }, 1000);
+            }, 1500);
         }
     }
 
@@ -135,7 +137,7 @@ class BankSystem extends BankAccount {
         console.log('Memproses cek saldo...');
         new Promise((resolve) => {
             setTimeout(() => {
-                resolve(`Saldo anda saat ini: ${this.getSaldo()}`);
+                resolve(`Saldo anda saat ini: ${this._getSaldo()}`);
             }, 2000);
         }).then((message) => {
             console.log(message);
@@ -146,12 +148,12 @@ class BankSystem extends BankAccount {
             console.log(`Error: ${error.message}`);
             setTimeout(() => {
                 this.mainmenu();
-            }, 1000);
+            }, 1500);
         });
     }
 
     // Validation for amount input
-    validateAmount(amount) {
+    #validateAmount(amount) {
         if (amount === null || isNaN(amount) || !/^\d+$/.test(amount)) {
             throw new InvalidInput("Input tidak valid. Hanya angka yang diperbolehkan.");
         }
@@ -166,10 +168,19 @@ class BankSystem extends BankAccount {
 }
 
 async function main() {
-    const name = await input('Masukkan nama anda: ');
-    const bankSystem = new BankSystem(name);
-    await bankSystem.deposit(1000000);
-    await bankSystem.mainmenu();
+    try {
+        const nama = await input('Masukkan nama anda: ');
+
+        // Membuat instance dari BankSystem
+        const bankSystem = new BankSystem(nama);
+
+        // Menampilkan menu
+        await bankSystem.mainmenu();
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+        rl.close();
+        process.exit(1);
+    }
 }
 
 main();
