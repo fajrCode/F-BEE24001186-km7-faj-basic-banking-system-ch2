@@ -1,6 +1,7 @@
 class BankAccount {
     constructor(nama) {
         this.nama = nama;
+        this.accountnumber = Math.floor(Math.random() * 1000000000);
         this.saldo = 0;
     }
 
