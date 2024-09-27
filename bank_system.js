@@ -123,8 +123,11 @@ class BankSystem extends BankAccount {
      */
 
     checkSaldo() {
-        console.log(`Saldo saat ini: ${this.getSaldo()}`);
-        // return to main menu
+        console.log('Memproses deposit...');
+        setTimeout(() => {
+            console.log(`Saldo anda saat ini: ${this.getSaldo()}`);
+            this.menu();
+        }, 2000);
         this.menu(); 
     }
 
