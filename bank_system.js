@@ -19,6 +19,7 @@ class BankSystem extends BankAccount {
         const amount = await input('Masukkan jumlah saldo yang ingin ditarik: ');
         const result = this.withdraw(amount);
         console.log(result);
+    }
     async handleDeposit(){
         const amount = await input('Masukkan jumlah saldo yang akan ditambahkan: ');
         console.log(this.deposit(amount));
