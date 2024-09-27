@@ -39,6 +39,11 @@ class BankAccount {
         return `Selamat saldo berhasil dikurangi. \nSaldo anda sekarang: ${this.#formatRupiah(this.saldo)}`
     }
 
+    // protected method get saldo
+    _getSaldo() {
+        return `Saldo anda sekarang: ${this.#formatRupiah(this.saldo)}`;
+    }
+
     // private method to format number to rupiah
     #formatRupiah(number) {
         let rupiah = "";
