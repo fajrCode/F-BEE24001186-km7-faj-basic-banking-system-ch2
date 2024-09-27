@@ -1,20 +1,27 @@
 const BankAccount = require('./bank_account');
 const readline = require('readline');
+const { InvalidInput, InvalidAmount } = require('./errors');
 
-// Membuat antarmuka untuk membaca input dari terminal
+// Create readline interface
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-
+// function for terminal input
 const input = (text) => {
     return new Promise((resolve) => rl.question(text, resolve));
 };
 
+// function for generating account number
+const generateAccountNumber = () => {
+    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
+};
+
 class BankSystem extends BankAccount {
-    constructor(name){
-        super(name);
+    constructor(nama) {
+        const nomorRekening = generateAccountNumber(); // Nomor rekening dihasilkan secara otomatis
+        super(nama, nomorRekening);
     }
 
     /**
@@ -23,27 +30,37 @@ class BankSystem extends BankAccount {
      * @async
      */
 
-    async mainmenu(){
-        console.log('1. Tarik Tunai');
-        console.log('2. Setor Tunai');
-        console.log('3. Keluar');
-        const option = await input('Masukkan pilihan anda: ');
-        switch(option){
+    async menu() {
+        console.log(`\nSelamat datang, ${this.nama}!`);
+        console.log(`Nomor Rekening: ${this.nomorRekening}`);
+        console.log("=== Menu Utama ===");
+        console.log("1. Deposit");
+        console.log("2. Withdraw");
+        console.log("3. Cek Saldo");
+        console.log("4. Keluar");
+
+        const option = await askQuestion('Pilih menu (1-4): ');
+
+        switch (option) {
             case '1':
-                await this.handleWithdraw();
-                break;
-            case '2':
                 await this.handleDeposit();
                 break;
+            case '2':
+                await this.handleWithdraw();
+                break;
             case '3':
-                console.log('Terima kasih telah menggunakan layanan kami.');
+                this.checkSaldo();
+                break;
+            case '4':
+                console.log("Terima kasih telah menggunakan sistem perbankan kami.");
+                rl.close();
                 process.exit(0);
                 break;
             default:
-                console.log('Pilihan tidak valid');
-                break;
+                // Menampilkan kembali menu jika input tidak valid
+                console.log("Pilihan tidak valid.");
+                await this.menu(); 
         }
-        await this.mainmenu();
     }
 
     /**
