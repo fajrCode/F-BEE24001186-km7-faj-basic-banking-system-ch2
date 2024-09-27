@@ -72,8 +72,24 @@ class BankSystem extends BankAccount {
     async handleWithdraw() {
         this.saldo = 1000000;
         const amount = await input('Masukkan jumlah saldo yang ingin ditarik: ');
-        const result = this.withdraw(amount);
-        console.log(result);
+        try {
+            if (this.validateAmount(amount)) {
+                if (amount > this.saldo) {
+                    throw new InvalidAmount(`Maaf, saldo anda tidak cukup. Saldo saat ini: ${this.getSaldo()}`);
+                }
+                console.log('Memproses penarikan...');
+
+                // Delay withdraw process for 2 seconds
+                setTimeout(() => {
+                    const newBalance = this.withdraw(amount);
+                    console.log(`Penarikan berhasil! Saldo baru: ${newBalance}`);
+                    this.menu();
+                }, 2000);
+            }
+        } catch (error) {
+            console.log(`Error: ${error.message}`);
+            await this.menu();
+        }
     }
 
     /**
@@ -93,12 +109,25 @@ class BankSystem extends BankAccount {
      * @returns {void}
      */
 
-    // Show saldo
     checkSaldo() {
         console.log(`Saldo saat ini: ${this.getSaldo()}`);
         // return to main menu
         this.menu(); 
     }
+
+    // Validation for amount input
+    validateAmount(amount) {
+        if (amount === null || isNaN(amount) || !/^\d+$/.test(amount)) {
+            throw new InvalidInput("Input tidak valid. Hanya angka yang diperbolehkan.");
+        }
+
+        if (amount <= 0) {
+            throw new InvalidAmount("Jumlah harus lebih dari 0.");
+        }
+
+        return true;
+    }
+
 }
 
 async function main() {
