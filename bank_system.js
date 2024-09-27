@@ -88,6 +88,17 @@ class BankSystem extends BankAccount {
         console.log(this.deposit(amount));
     }
 
+    /**
+     * Check saldo
+     * @returns {void}
+     */
+
+    // Show saldo
+    checkSaldo() {
+        console.log(`Saldo saat ini: ${this.getSaldo()}`);
+        // return to main menu
+        this.menu(); 
+    }
 }
 
 async function main() {
