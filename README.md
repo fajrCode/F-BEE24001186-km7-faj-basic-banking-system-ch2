@@ -4,7 +4,10 @@ Studi Kasus Challenge 2
 Dalam studi kasus ini, kita akan membuat sebuah Basic Banking System sederhana menggunakan konsep Pemrograman Berorientasi Objek (OOP) dan mensimulasikan operasi transaksi yang asynchronous.
 
 Flowchart
-![Alt text](flowchart.webp)
+![Flowchart Bank System](flowchart.webp)
+
+ERD
+![ERD Bank System](erd_banksystem.png)
 
 Langkah Penggunaan:
 1. Pastikan di local komputer telah terinstall nodejs, dan git
