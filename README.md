@@ -7,7 +7,7 @@ Flowchart
 ![Flowchart Bank System](flowchart.webp)
 
 ERD
-![ERD Bank System](erd_banksystem.png)
+![ERD Bank System](db/erd_banksystem.png)
 
 Langkah Penggunaan:
 1. Pastikan di local komputer telah terinstall nodejs, dan git
