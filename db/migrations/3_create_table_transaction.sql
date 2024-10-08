@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,
     account_id INT REFERENCES accounts(id),
     type transaction_type NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
+    amount DECIMAL(15, 2) NOT NULL,
     status BOOLEAN NOT NULL DEFAULT TRUE
 );
 
