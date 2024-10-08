@@ -13,4 +13,7 @@ ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE accounts
 ADD COLUMN updated_at TIMESTAMP;
 
+CREATE INDEX ON accounts (account_number);
+CREATE INDEX ON accounts (customer_id);
+
 DROP TABLE IF EXISTS accounts;
