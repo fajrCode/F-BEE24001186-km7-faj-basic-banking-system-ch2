@@ -29,7 +29,7 @@ FROM customers c, generate_series(1, 2) gs;
 -- 3. Data dummy untuk tabel transactions (2 transaksi per rekening)
 INSERT INTO transactions (account_id, type, amount, status, created_at)
 SELECT 
-    a.id AS account_id, -- ID rekening
+    a.id AS account_id,
     CASE 
         WHEN gs % 3 = 0 THEN 'deposit' 
         WHEN gs % 3 = 1 THEN 'withdraw' 
