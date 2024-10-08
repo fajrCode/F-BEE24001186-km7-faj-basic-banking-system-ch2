@@ -1,9 +1,11 @@
+CREATE TYPE gender_type AS ENUM ('male', 'female');
+
 CREATE Table IF NOT EXISTS customers (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
-    gender VARCHAR(50) NOT NULL,
-    phone VARCHAR(50) NOT NULL,
-    address VARCHAR(50) NOT NULL
+    gender gender_type NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    address TEXT NOT NULL
 );
 
 ALTER TABLE customers
