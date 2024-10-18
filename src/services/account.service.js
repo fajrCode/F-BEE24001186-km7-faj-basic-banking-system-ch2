@@ -16,7 +16,11 @@ export default class AccountService extends BaseService {
                     bankName: data.bankName,
                     bankAccountNumber: String(data.bankAccountNumber),
                     balance: data.balance,
-                    userId: data.userId,
+                    user: {
+                        connect: {
+                            id: data.userId,
+                        },
+                    },
                 },
                 include: {
                     user: true,
