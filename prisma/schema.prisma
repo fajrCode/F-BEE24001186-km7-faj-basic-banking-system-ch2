@@ -29,9 +29,9 @@ model User {
 // Define profiles table
 model Profile {
   id             Int    @id @default(autoincrement())
-  userId         Int    @unique
-  identityTypes  String
-  identityNumber Int    @unique
+  userId         Int    @unique @map("user_id")
+  identityTypes  String @map("identity_types")
+  identityNumber Int    @unique @map("identity_number")
   address        String
 
   user User @relation(fields: [userId], references: [id])
@@ -42,9 +42,9 @@ model Profile {
 // Define bank_accounts table
 model BankAccount {
   id                Int    @id @default(autoincrement())
-  userId            Int
-  bankName          String
-  bankAccountNumber Int    @unique
+  userId            Int    @map("user_id")
+  bankName          String @map("bank_name")
+  bankAccountNumber Int    @unique @map("bank_account_number")
   balance           Int
 
   user                 User          @relation(fields: [userId], references: [id])
@@ -57,8 +57,8 @@ model BankAccount {
 // Define transactions table
 model Transaction {
   id                   Int @id @default(autoincrement())
-  sourceAccountId      Int
-  destinationAccountId Int
+  sourceAccountId      Int @map("source_account_id")
+  destinationAccountId Int @map("destination_account_id")
   amount               Int
 
   sourceAccount      BankAccount @relation("sourceAccount", fields: [sourceAccountId], references: [id])
