@@ -1,9 +1,11 @@
 import express from 'express';
+import logger from './logger.js';
 import ErrorHandler from '../middlewares/errorHandler.js';
 import apiV1 from '../routes/api/v1/index.js';
 
 export const app = express();
 
+app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
