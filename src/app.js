@@ -1,5 +1,7 @@
 import express from 'express';
+import ResponseHandler from './utils/response.js';
 
+const response = new ResponseHandler();
 export const app = express();
 
 app.use(express.json());
@@ -10,18 +12,10 @@ app.set('view engine', 'ejs');
 
 // Root route
 app.get('/', (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        message: 'Welcome to the root route',
-        data: null
-    })
+    return response.res200('Binar x Fajri API v1 Ready to use (❁´◡`❁) Happy Coding!', null, res);
 });
 
 // error handling 404
 app.use((req, res) => {
-    res.status(404).json({
-        status: 'error',
-        message: '404 Not Found',
-        data: null
-    })
+    return response.res404(res);
 });
