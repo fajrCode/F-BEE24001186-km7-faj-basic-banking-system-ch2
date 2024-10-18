@@ -8,7 +8,7 @@ class ErrorHandler {
 
     static handleError(err, req, res, next) {
         const responseHandler = new ResponseHandler();
-        console.error(err.stack); // Log error ke console
+        console.log('Server error: ' + err.message);
         responseHandler.res500(res);
     }
 }
