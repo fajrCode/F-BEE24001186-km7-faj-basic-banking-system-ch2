@@ -19,7 +19,7 @@ export default class UserCtrl extends BaseCtrl {
 
             const newAccount = await this._service.create(value);
 
-            return this.response.res200('Create User and Profile Success', newAccount, res);
+            return this.response.res200('Create Bank Account Success', newAccount, res);
         } catch (err) {
             console.error(err.message);
             if (err instanceof ErrorDbInput) {
