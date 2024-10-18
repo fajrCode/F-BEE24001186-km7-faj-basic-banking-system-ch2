@@ -30,8 +30,8 @@ model User {
 model Profile {
   id             Int    @id @default(autoincrement())
   userId         Int    @unique
-  identifyTypes  String
-  identifyNumber String
+  identityTypes  String
+  identityNumber Int    @unique
   address        String
 
   user User @relation(fields: [userId], references: [id])
