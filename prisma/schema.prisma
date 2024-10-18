@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define users table
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+
+  profile     Profile?
+  bankAccount BankAccount[]
+
+  @@map("users")
+}
+
+// Define profiles table
+model Profile {
+  id             Int    @id @default(autoincrement())
+  userId         Int    @unique @map("user_id")
+  identityTypes  String @map("identity_types")
+  identityNumber BigInt @unique @map("identity_number")
+  address        String
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
+}
+
+// Define bank_accounts table
+model BankAccount {
+  id                Int    @id @default(autoincrement())
+  userId            Int    @map("user_id")
+  bankName          String @map("bank_name")
+  bankAccountNumber Int    @unique @map("bank_account_number")
+  balance           Int
+
+  user                 User          @relation(fields: [userId], references: [id])
+  outgoingTransactions Transaction[] @relation("sourceAccount")
+  incomingTransactions Transaction[] @relation("destinationAccount")
+
+  @@map("bank_accounts")
+}
+
+// Define transactions table
+model Transaction {
+  id                   Int @id @default(autoincrement())
+  sourceAccountId      Int @map("source_account_id")
+  destinationAccountId Int @map("destination_account_id")
+  amount               Int
+
+  sourceAccount      BankAccount @relation("sourceAccount", fields: [sourceAccountId], references: [id])
+  destinationAccount BankAccount @relation("destinationAccount", fields: [destinationAccountId], references: [id])
+
+  @@map("transactions")
+}
