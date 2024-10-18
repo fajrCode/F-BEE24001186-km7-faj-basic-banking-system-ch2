@@ -33,7 +33,7 @@ class ResponseHandler {
         res.status(400).json({
             status: {
                 code: 400,
-                message: "Bad ! - " + msg,
+                message: "Bad Request! - " + msg,
             },
             data: null,
         });
