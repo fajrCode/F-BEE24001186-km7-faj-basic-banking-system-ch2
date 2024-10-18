@@ -54,8 +54,8 @@ export default class UserService extends BaseService {
                     password: data.password,
                     profile: {
                         create: {
-                            identityTypes: data.identity_type,
-                            identityNumber: data.identity_number,
+                            identityTypes: data.identityType,
+                            identityNumber: String(data.identityNumber),
                             address: data.address,
                         }
                     }
@@ -65,10 +65,6 @@ export default class UserService extends BaseService {
                 }
             });
             
-            if (user.profile && typeof user.profile.identityNumber === 'bigint') {
-                user.profile.identityNumber = user.profile.identityNumber.toString();
-            }
-
             delete user.password;
             return user;
 
