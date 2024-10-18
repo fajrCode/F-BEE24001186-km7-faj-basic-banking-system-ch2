@@ -17,8 +17,7 @@ export default class UserService extends BaseService {
         });
 
         users.forEach(user => {
-            if (user.profile && typeof user.profile.identityNumber === 'bigint') {
-                user.profile.identityNumber = user.profile.identityNumber.toString();
+            if (user.password) {
                 delete user.password;
             }
         });
