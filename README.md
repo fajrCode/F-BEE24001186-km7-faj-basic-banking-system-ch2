@@ -44,5 +44,5 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 ### Running Development Mode
 ```npm run dev``` or ```pnpm dev```
 
-
+---
 Happy coding (❁´◡`❁)
