@@ -4,6 +4,7 @@ import listEndpoints from 'express-list-endpoints';
 import { app } from "./configs/app.js";
 
 const port = process.env.PORT || 3000;
+const host = process.env.HOST || "localhost";
 const server = http.createServer(app);
 
 try {
@@ -18,7 +19,7 @@ try {
     };
 
     server.listen(port, () => {
-        console.log(`🚀 Server is running on port ${port} '${process.env.NODE_ENV}'`);
+        console.log(`🚀 Server is on ${host}:${port}`);
     });
 } catch (error) {
     console.error(`Error: ${error.message}`);
