@@ -74,4 +74,40 @@ export default class UserService extends BaseService {
             }
         }
     }
+
+    // Override method update
+    async update(id, data) {
+        try {
+            const user = await this._model.update({
+                where: { id: Number(id) },
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    profile: {
+                        update: {
+                            identityTypes: data.identityType,
+                            identityNumber: String(data.identityNumber),
+                            address: data.address,
+                        }
+                    }
+                },
+                include: {
+                    profile: true,
+                }
+            });
+
+            delete user.password;
+            return user;
+
+        } catch (err) {
+            if (err.code === 'P2002') {  // Unique constraint violation
+                throw new ErrorDbInput(err.message);
+            } else if (err.code === 'P2025') {  // Record not found (just in case)
+                throw new Error('RecordNotFoundError');
+            } else {
+                throw new Error('UnknownError');  // Fallback to generic error
+            }
+        }
+    }
+
 }

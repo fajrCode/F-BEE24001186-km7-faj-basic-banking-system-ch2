@@ -31,4 +31,26 @@ export default class UserCtrl extends BaseCtrl {
         }
     };
 
+    // Override method update from BaseCtrl
+    update = async (req, res) => {
+        try {
+            const { error, value } = createUserValidator.validate(req.body);
+            if (error) {
+                return this.response.res400(`Validation error: ${error.details[0].message}`, res);
+            }
+
+            const updatedUser = await this._service.update(req.params.id, value);
+
+            return this.response.res200('Update User and Profile Success', updatedUser, res);
+        } catch (err) {
+            console.error(err.message);
+            if (err instanceof ErrorDbInput) {
+                const message = err.message.split('invocation:').pop().trim();
+                return this.response.res400(message, res);
+            } else {
+                return this.response.res500(res);   
+            }
+        }
+    };
+
 }
