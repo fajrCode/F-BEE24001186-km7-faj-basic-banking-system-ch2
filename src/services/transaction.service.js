@@ -6,6 +6,17 @@ import { ErrorDbInput } from '../utils/custom_error.js';
 export default class TransactionService extends BaseService {
     constructor() {
         super(prisma.transaction); // Mengirim model user ke BaseService
+        this.bankAccountSelection = {
+            id: true,
+            bankAccountNumber: true,
+            balance: true,
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                }
+            }
+        }
     }
 
     // Override method create
@@ -60,9 +71,15 @@ export default class TransactionService extends BaseService {
                         },
                     },
                 },
-                include: {
-                    sourceAccount: true,
-                    destinationAccount: true,
+                select: {
+                    id: true,
+                    amount: true,
+                    sourceAccount: {
+                        select: this.bankAccountSelection
+                    },
+                    destinationAccount: {
+                        select: this.bankAccountSelection
+                    },
                 }
             });
 
@@ -85,9 +102,15 @@ export default class TransactionService extends BaseService {
     async getAll() {
         try {
             const transactions = await this._model.findMany({
-                include: {
-                    sourceAccount: true,
-                    destinationAccount: true,
+                select: {
+                    id: true,
+                    amount: true,
+                    sourceAccount: {
+                        select: this.bankAccountSelection
+                    },
+                    destinationAccount: {
+                        select: this.bankAccountSelection
+                    },
                 }
             });
 
@@ -98,5 +121,29 @@ export default class TransactionService extends BaseService {
         }
     }
 
+    // Override method getById
+    async getById(id) {
+        try {
+            const transaction = await this._model.findUnique({
+                where: { id: parseInt(id) },
+                select: {
+                    id: true,
+                    amount: true,
+                    sourceAccount: {
+                        select: this.bankAccountSelection
+                    },
+                    destinationAccount: {
+                        select: this.bankAccountSelection
+                    },
+                }
+
+            });
+
+            return transaction;
+        } catch (err) {
+            console.error(err.message);
+            throw new Error(err.message);
+        }
+    }
 
 }
