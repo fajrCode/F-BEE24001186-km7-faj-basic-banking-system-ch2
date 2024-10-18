@@ -10,17 +10,17 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 ![ERD Bank System](public/images/new-erd.jpg)
 
 ## List Endpoints
-○ POST /api/v1/users => menambahkan user baru beserta dengan profilnya.
-○ GET /api/v1/users => menampilkan daftar users.
-○ GET /api/v1/users/:userId => menampilkan detail informasi user (tampilkan juga profilnya).
-○ PUT /api/v1/users/:userId => melakukan update data users beserta profilenya.
-○ POST /api/v1/accounts => menambahkan akun baru ke user yang sudah didaftarkan.
-○ GET /api/v1/accounts => menampilkan daftar akun.
-○ GET /api/v1/accounts/:accountId => menampilkan detail akun.
-○ POST /api/v1/transactions => mengirimkan uang dari 1 akun ke akun lain (tentukan request body nya).
-○ GET /api/v1/transactions => menampilkan daftar transaksi.
-○ GET /api/v1/transactions/:transactionId => menampilkan detail transaksi (tampilkan juga pengirim dan penerimanya).
-○ DELETE /api/v1/transactions/:transactionId => menghapus data transaksi berdasarkan ID transaksi dan refund balance ke bank account.
+- POST /api/v1/users => menambahkan user baru beserta dengan profilnya.
+- GET /api/v1/users => menampilkan daftar users.
+- GET /api/v1/users/:userId => menampilkan detail informasi user (tampilkan juga profilnya).
+- PUT /api/v1/users/:userId => melakukan update data users beserta profilenya.
+- POST /api/v1/accounts => menambahkan akun baru ke user yang sudah didaftarkan.
+- GET /api/v1/accounts => menampilkan daftar akun.
+- GET /api/v1/accounts/:accountId => menampilkan detail akun.
+- POST /api/v1/transactions => mengirimkan uang dari 1 akun ke akun lain (tentukan request body nya).
+- GET /api/v1/transactions => menampilkan daftar transaksi.
+- GET /api/v1/transactions/:transactionId => menampilkan detail transaksi (tampilkan juga pengirim dan penerimanya).
+- DELETE /api/v1/transactions/:transactionId => menghapus data transaksi berdasarkan ID transaksi dan refund balance ke bank account.
 
 ## Prerequisites
 - NodeJS V^16
