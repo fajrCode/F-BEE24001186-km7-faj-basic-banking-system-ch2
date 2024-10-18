@@ -1,6 +1,7 @@
 import BaseCtrl from './base.controller.js';
 import UserService from '../services/user.service.js';
 import createUserValidator from '../validations/user.validation.js';
+import { ErrorDbInput } from '../utils/custom_error.js';
 
 export default class UserCtrl extends BaseCtrl {
     constructor() {
@@ -21,10 +22,9 @@ export default class UserCtrl extends BaseCtrl {
             return this.response.res200('Create User and Profile Success', newUser, res);
         } catch (err) {
             console.error(err.message);
-            if (err.message === 'UniqueConstraintError') {
-                return this.response.res400('Email already exists. Please use another email.', res);
-            } else if (err.message === 'PrismaValidationError') {
-                return this.response.res400('Validation error occurred during data insertion.', res);
+            if (err instanceof ErrorDbInput) {
+                const message = err.message.split('invocation:').pop().trim();
+                return this.response.res400(message, res);
             } else {
                 return this.response.res500(res);   
             }

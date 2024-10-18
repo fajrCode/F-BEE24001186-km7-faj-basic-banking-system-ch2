@@ -1,11 +1,11 @@
 // services/userService.js
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
+import { ErrorDbInput } from '../utils/custom_error.js';
 
 export default class UserService extends BaseService {
     constructor() {
         super(prisma.user); // Mengirim model user ke BaseService
-        this.profileModel = prisma.profile;
     }
 
     // Override method getAll
@@ -15,14 +15,14 @@ export default class UserService extends BaseService {
                 profile: true,
             }
         });
-        
+
         users.forEach(user => {
             if (user.profile && typeof user.profile.identityNumber === 'bigint') {
                 user.profile.identityNumber = user.profile.identityNumber.toString();
                 delete user.password;
             }
         });
-        
+
         return users;
     }
 
@@ -38,7 +38,7 @@ export default class UserService extends BaseService {
         if (user.profile && typeof user.profile.identityNumber === 'bigint') {
             user.profile.identityNumber = user.profile.identityNumber.toString();
         }
-        
+
         delete user.password;
 
         return user;
@@ -47,7 +47,7 @@ export default class UserService extends BaseService {
     // Override method create
     async create(data) {
         try {
-            return await this._model.create({
+            const user = await this._model.create({
                 data: {
                     name: data.name,
                     email: data.email,
@@ -64,9 +64,18 @@ export default class UserService extends BaseService {
                     profile: true,
                 }
             });
+            
+            if (user.profile && typeof user.profile.identityNumber === 'bigint') {
+                user.profile.identityNumber = user.profile.identityNumber.toString();
+            }
+
+            delete user.password;
+            return user;
+
         } catch (err) {
+            console.log(err.code);
             if (err.code === 'P2002') {  // Unique constraint violation
-                throw new Error('UniqueConstraintError');
+                throw new ErrorDbInput(err.message);
             } else if (err.code === 'P2025') {  // Record not found (just in case)
                 throw new Error('RecordNotFoundError');
             } else {
