@@ -3,7 +3,7 @@ import AccountService from '../services/account.service.js';
 import createAccountValidator from '../validations/account.validation.js';
 import { ErrorDbInput } from '../utils/custom_error.js';
 
-export default class UserCtrl extends BaseCtrl {
+export default class AccountCtrl extends BaseCtrl {
     constructor() {
         super(new AccountService());
     }
