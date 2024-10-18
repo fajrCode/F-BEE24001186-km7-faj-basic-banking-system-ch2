@@ -35,10 +35,6 @@ export default class UserService extends BaseService {
             }
         });
 
-        if (user.profile && typeof user.profile.identityNumber === 'bigint') {
-            user.profile.identityNumber = user.profile.identityNumber.toString();
-        }
-
         delete user.password;
 
         return user;
@@ -64,7 +60,7 @@ export default class UserService extends BaseService {
                     profile: true,
                 }
             });
-            
+
             delete user.password;
             return user;
 
