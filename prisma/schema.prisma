@@ -31,7 +31,7 @@ model Profile {
   id             Int    @id @default(autoincrement())
   userId         Int    @unique @map("user_id")
   identityTypes  String @map("identity_types")
-  identityNumber Int    @unique @map("identity_number")
+  identityNumber BigInt @unique @map("identity_number")
   address        String
 
   user User @relation(fields: [userId], references: [id])
