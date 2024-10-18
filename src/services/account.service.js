@@ -31,5 +31,20 @@ export default class AccountService extends BaseService {
         }
     }
 
+    // Override method getAll
+    async getAll() {
+        const accounts = await this._model.findMany({
+            include: {
+                user: true,
+            }
+        });
+
+        accounts.forEach(account => {
+            delete account.user.password;
+        });
+
+        return accounts;
+    }
+
 
 }
