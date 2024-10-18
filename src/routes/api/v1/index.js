@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { IndexCtrl } from '../../../controllers/index.controller.js';
 import UserRoute from './user.route.js';
+import AccountRoute from './account.route.js';
 
 export default (app) => {
     const router = Router();
@@ -11,5 +12,6 @@ export default (app) => {
     router.get('/', index.root);
 
     new UserRoute(router);
+    new AccountRoute(router);
 
 }
