@@ -146,4 +146,60 @@ export default class TransactionService extends BaseService {
         }
     }
 
+    // Override method delete
+    async delete(id) {
+        try {
+            const transaction = await this._model.findUnique({
+                where: { id: parseInt(id) },
+                select: {
+                    id: true,
+                    amount: true,
+                    sourceAccount: {
+                        select: this.bankAccountSelection
+                    },
+                    destinationAccount: {
+                        select: this.bankAccountSelection
+                    },
+                }
+            });
+
+            if (!transaction) {
+                throw new ErrorDbInput('Transaction not found');
+            }
+
+            // Refund balance source account
+            await prisma.bankAccount.update({
+                where: { id: transaction.sourceAccount.id },
+                data: {
+                    balance: {
+                        increment: transaction.amount
+                    }
+                }
+            });
+
+            // Refund balance destination account
+            await prisma.bankAccount.update({
+                where: { id: transaction.destinationAccount.id },
+                data: {
+                    balance: {
+                        decrement: transaction.amount
+                    }
+                }
+            });
+
+            await this._model.delete({
+                where: { id: parseInt(id) },
+            });
+
+            return transaction;
+        } catch (err) {
+            console.error(err.message);
+            if (err.code === 'P2025') {
+                throw new ErrorDbInput('Transaction not found');
+            } else {
+                throw new Error(err.message);
+            }
+        }
+    }
+
 }

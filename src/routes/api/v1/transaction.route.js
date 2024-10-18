@@ -1,7 +1,6 @@
 import TransactionCtrl from '../../../controllers/transaction.controller.js';
 
 export default class TransactionRoute {
-    
     constructor(router) {
         this.router = router;
         this.controller = new TransactionCtrl();
@@ -13,5 +12,6 @@ export default class TransactionRoute {
         this.router.post(this.basepath + '/', this.controller.create);
         this.router.get(this.basepath + '/', this.controller.getAll);
         this.router.get(this.basepath + '/:id', this.controller.getById);
+        this.router.delete(this.basepath + '/:id', this.controller.delete);
     }
 }
