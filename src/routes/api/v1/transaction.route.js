@@ -11,5 +11,6 @@ export default class TransactionRoute {
 
     initializeRoutes() {
         this.router.post(this.basepath + '/', this.controller.create);
+        this.router.get(this.basepath + '/', this.controller.getAll);
     }
 }

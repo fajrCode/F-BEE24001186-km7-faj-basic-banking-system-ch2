@@ -81,5 +81,22 @@ export default class TransactionService extends BaseService {
         }
     }
 
+    // Override method getAll
+    async getAll() {
+        try {
+            const transactions = await this._model.findMany({
+                include: {
+                    sourceAccount: true,
+                    destinationAccount: true,
+                }
+            });
+
+            return transactions;
+        } catch (err) {
+            console.error(err.message);
+            throw new Error(err.message);
+        }
+    }
+
 
 }

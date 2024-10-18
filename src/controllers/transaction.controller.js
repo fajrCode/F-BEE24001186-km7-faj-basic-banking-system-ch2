@@ -31,5 +31,4 @@ export default class TransactionCtrl extends BaseCtrl {
         }
     };
 
-
 }
