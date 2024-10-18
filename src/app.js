@@ -1,5 +1,6 @@
 import express from 'express';
 import ResponseHandler from './utils/response.js';
+import ErrorHandler from './middlewares/errorHandler.js';
 
 const response = new ResponseHandler();
 export const app = express();
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 // error handling 404
-app.use((req, res) => {
-    return response.res404(res);
-});
+app.use(ErrorHandler.handle404);
+
+// Handle other error
+app.use(ErrorHandler.handleError);
