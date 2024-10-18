@@ -14,7 +14,7 @@ export default class AccountService extends BaseService {
             const account = await this._model.create({
                 data: {
                     bankName: data.bankName,
-                    bankAccountNumber: data.bankAccountNumber,
+                    bankAccountNumber: String(data.bankAccountNumber),
                     balance: data.balance,
                     userId: data.userId,
                 },
