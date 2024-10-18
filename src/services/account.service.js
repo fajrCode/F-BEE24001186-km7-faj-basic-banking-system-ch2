@@ -46,5 +46,25 @@ export default class AccountService extends BaseService {
         return accounts;
     }
 
+    // Override method getById
+    async getById(id) {
+        const account = await this._model.findUnique({
+            where: {
+                id: parseInt(id),
+            },
+            include: {
+                user: true,
+            }
+        });
+
+        if (!account) {
+            throw new ErrorDbInput('Account not found');
+        }
+
+        delete account.user.password;
+
+        return account;
+    }
+
 
 }

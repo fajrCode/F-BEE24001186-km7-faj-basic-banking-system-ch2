@@ -11,5 +11,6 @@ export default class AccountRoute {
     initializeRoutes() {
         this.router.post(this.basepath + '/', this.controller.create);
         this.router.get(this.basepath + '/', this.controller.getAll);
+        this.router.get(this.basepath + '/:id', this.controller.getById);
     }
 }
