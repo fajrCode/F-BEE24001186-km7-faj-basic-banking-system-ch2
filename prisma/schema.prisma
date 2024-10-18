@@ -45,7 +45,7 @@ model BankAccount {
   userId            Int    @map("user_id")
   bankName          String @map("bank_name")
   bankAccountNumber String @unique @map("bank_account_number")
-  balance           Decimal
+  balance           Float
 
   user                 User          @relation(fields: [userId], references: [id])
   outgoingTransactions Transaction[] @relation("sourceAccount")
@@ -59,7 +59,7 @@ model Transaction {
   id                   Int @id @default(autoincrement())
   sourceAccountId      Int @map("source_account_id")
   destinationAccountId Int @map("destination_account_id")
-  amount               Decimal
+  amount               Float
 
   sourceAccount      BankAccount @relation("sourceAccount", fields: [sourceAccountId], references: [id])
   destinationAccount BankAccount @relation("destinationAccount", fields: [destinationAccountId], references: [id])
