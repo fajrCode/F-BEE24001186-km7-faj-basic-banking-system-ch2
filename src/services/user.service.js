@@ -8,7 +8,43 @@ export default class UserService extends BaseService {
         this.profileModel = prisma.profile;
     }
 
-    //override method create
+    // Override method getAll
+    async getAll() {
+        const users = await this._model.findMany({
+            include: {
+                profile: true,
+            }
+        });
+        
+        users.forEach(user => {
+            if (user.profile && typeof user.profile.identityNumber === 'bigint') {
+                user.profile.identityNumber = user.profile.identityNumber.toString();
+                delete user.password;
+            }
+        });
+        
+        return users;
+    }
+
+    // Override method getById
+    async getById(id) {
+        const user = await this._model.findUnique({
+            where: { id: Number(id) },
+            include: {
+                profile: true,
+            }
+        });
+
+        if (user.profile && typeof user.profile.identityNumber === 'bigint') {
+            user.profile.identityNumber = user.profile.identityNumber.toString();
+        }
+        
+        delete user.password;
+
+        return user;
+    }
+
+    // Override method create
     async create(data) {
         try {
             return await this._model.create({
