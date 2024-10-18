@@ -9,11 +9,11 @@ export default class BaseCtrl {
     getAll = async (req, res) => {
         try {
             const data = await this._service.getAll();
-            this.response.res200('Get All Data Success', data, res)
+            return this.response.res200('Get All Data Success', data, res)
         }
-        catch (error) {
-            console.log(error)
-            this.response.res500(res)
+        catch (err) {
+            console.log(err.message)
+            return this.response.res500(res)
         }
     }
 
@@ -22,13 +22,13 @@ export default class BaseCtrl {
             const id = req.params.id;
             const data = await this._service.getById(id);
             if (!data) {
-                this.response.res404('Data Not Found', res)
+                return this.response.res400('Data Not Found', res)
             }
-            this.response.res200('Get Data Success', data, res)
+            return this.response.res200('Get Data Success', data, res)
         }
-        catch (error) {
-            console.log(error)
-            this.response.res500(res)
+        catch (err) {
+            console.log(err.message)
+            return this.response.res500(res)
         }
     }
 
@@ -36,11 +36,11 @@ export default class BaseCtrl {
         try {
             const data = req.body;
             const newData = await this._service.create(data);
-            this.response.res200('Create Data Success', newData, res)
+            return this.response.res200('Create Data Success', newData, res)
         }
-        catch (error) {
-            console.log(error)
-            this.response.res500(res)
+        catch (err) {
+            console.log(err.message)
+            return this.response.res500(res)
         }
     }
 
@@ -50,13 +50,13 @@ export default class BaseCtrl {
             const data = req.body;
             const updatedData = await this._service.update(id, data);
             if (!updatedData) {
-                this.response.res404('Data Not Found', res)
+                return this.response.res404('Data Not Found', res)
             }
-            this.response.res200('Update Data Success', updatedData, res)
+            return this.response.res200('Update Data Success', updatedData, res)
         }
-        catch (error) {
-            console.log(error)
-            this.response.res500(res)
+        catch (err) {
+            console.log(err.message)
+            return this.response.res500(res)
         }
     }
 
@@ -65,13 +65,13 @@ export default class BaseCtrl {
             const id = req.params.id;
             const deletedData = await this._service.delete(id);
             if (!deletedData) {
-                this.response.res404('Data Not Found', res)
+                return this.response.res404('Data Not Found', res)
             }
-            this.response.res200('Delete Data Success', deletedData, res)
+            return this.response.res200('Delete Data Success', deletedData, res)
         }
-        catch (error) {
-            console.log(error)
-            this.response.res500(res)
+        catch (err) {
+            console.log(err.message)
+            return this.response.res500(res)
         }
     }
 }

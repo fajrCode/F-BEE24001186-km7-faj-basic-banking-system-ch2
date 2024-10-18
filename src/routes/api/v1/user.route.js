@@ -10,5 +10,6 @@ export default class UserRoute {
 
     initializeRoutes() {
         this.router.get(this.basepath + '/', this.controller.getAll);
+        this.router.get(this.basepath + '/:id', this.controller.getById);
     }
 }
