@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1": {
+      "get": {
+        "summary": "/api/v1",
+        "responses": {
+          "304": {
+            "description": ""
+          }
+        },
+        "tags": []
+      }
+    },
+    "/api/v1/users/": {
+      "get": {
+        "summary": "/api/v1/users/",
+        "responses": {},
+        "tags": []
+      },
+      "post": {
+        "summary": "/api/v1/users/",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "summary": "/api/v1/users/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      },
+      "put": {
+        "summary": "/api/v1/users/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/v1/accounts/": {
+      "post": {
+        "summary": "/api/v1/accounts/",
+        "responses": {},
+        "tags": []
+      },
+      "get": {
+        "summary": "/api/v1/accounts/",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/v1/accounts/{id}": {
+      "get": {
+        "summary": "/api/v1/accounts/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/v1/transactions/": {
+      "post": {
+        "summary": "/api/v1/transactions/",
+        "responses": {},
+        "tags": []
+      },
+      "get": {
+        "summary": "/api/v1/transactions/",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/v1/transactions/{id}": {
+      "get": {
+        "summary": "/api/v1/transactions/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      },
+      "delete": {
+        "summary": "/api/v1/transactions/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    }
+  },
+  "tags": [],
+  "info": {
+    "title": "f-bee24001186-km7-faj-basic-banking-system-ch2",
+    "version": "1.0.0",
+    "license": {
+      "name": "MIT"
+    },
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3).\n\nChallenge 4"
+  }
+}
