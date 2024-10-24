@@ -8,9 +8,7 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {
-          "304": {}
-        },
+        "responses": {},
         "tags": []
       }
     },
@@ -21,8 +19,90 @@
           "application/json"
         ],
         "parameters": [],
-        "responses": {},
-        "tags": []
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Get All Data Success"
+                    }
+                  }
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "profile": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "userId": {
+                            "type": "number"
+                          },
+                          "identityTypes": {
+                            "type": "string"
+                          },
+                          "identityNumber": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "email",
+                      "profile"
+                    ]
+                  },
+                  "example": [
+                    {
+                      "id": 3,
+                      "name": "fulan",
+                      "email": "fulan2@gmail.com",
+                      "profile": {
+                        "id": 1,
+                        "userId": 3,
+                        "identityTypes": "ktp",
+                        "identityNumber": "1571123456789123",
+                        "address": "Jln. Jalan 1"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "application/json"
+        ]
       },
       "post": {
         "summary": "/api/v1/users/",

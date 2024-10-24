@@ -4,11 +4,11 @@ import UserRoute from './user.route.js';
 import AccountRoute from './account.route.js';
 import TransactionRoute from './transaction.route.js';
 
-export default (app) => {
+// export default (app) => {
     const router = Router();
     const index = new IndexCtrl();
 
-    app.use('/api/v1', router);
+    // app.use('/api/v1', router);
     
     router.get('/', index.root);
 
@@ -16,5 +16,5 @@ export default (app) => {
     new AccountRoute(router);
     new TransactionRoute(router);
 
-    // export default router;
-}
+    export default router;
+// }

@@ -28,8 +28,8 @@ app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
 
 // API Router
-apiV1(app);
-// app.use('/api/v1', apiV1);
+// apiV1(app);
+app.use('/api/v1', apiV1);
 // oasGenerator.handleRequests();
 
 // // error handling 404
