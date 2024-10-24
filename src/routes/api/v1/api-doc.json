@@ -1,0 +1,363 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Basic Banking System - BinarAPI",
+      "description": "Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita akan mengintegrasikan sebuah Basic Banking System sederhana menggunakan Express.js dan Prisma.",
+      "contact": {
+        "email": "fajri@binar.com"
+      },
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/license/mit"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000/api/v1",
+        "description": "Development server"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Root"
+      },
+      {
+        "name": "Users",
+        "description": "Everything about Users feature"
+      }
+    ],
+    "paths": {
+      "/": {
+        "get":{
+          "summary": "Root API",
+          "description": "This is the root API of BinarAPI",
+          "tags": [
+            "Root"
+          ],
+          "responses": {
+            "200": {
+              "description": "Root API",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/root"
+                  }
+                }
+              }
+            },
+            "404":{
+              "description": "URL not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/404"
+                  }
+                }
+              }
+            },
+            "500":{
+              "description": "Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/500"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get all users",
+          "description": "This can only be done by the logged in user.",
+          "operationId": "getUsers",
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserArray"
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserArray"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/401"
+                  }
+                }
+              }
+            }
+          }
+        },	
+        "post": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Create user",
+          "description": "This can only be done by the logged in user.",
+          "operationId": "createUser",
+          "requestBody": {
+            "description": "Created user object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "default": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                },
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "root":{
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Binar x Fajri API v1 Ready to use (❁´◡`❁) Happy Coding!"
+                }
+              }
+            },
+            "data": {
+              "type": "object",
+              "nullable": true
+            }
+          }
+        },
+        "401": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized!"
+                }
+              }
+            },
+            "data": {
+              "type": "object",
+              "nullable": true
+            }
+          }
+        },
+        "404": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "URL not found!"
+                }
+              }
+            },
+            "data": {
+              "type": "object",
+              "nullable": true
+            }
+          }
+        },
+        "500": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Server Error!"
+                }
+              }
+            },
+            "data": {
+              "type": "object",
+              "nullable": true
+            }
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64",
+              "example": 10
+            },
+            "username": {
+              "type": "string",
+              "example": "theUser"
+            },
+            "firstName": {
+              "type": "string",
+              "example": "John"
+            },
+            "lastName": {
+              "type": "string",
+              "example": "James"
+            },
+            "email": {
+              "type": "string",
+              "example": "john@email.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "12345"
+            },
+            "phone": {
+              "type": "string",
+              "example": "12345"
+            },
+            "userStatus": {
+              "type": "integer",
+              "description": "User Status",
+              "format": "int32",
+              "example": 1
+            }
+          },
+          "xml": {
+            "name": "user"
+          }
+        },
+        "UserArray":{
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "Tag": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "xml": {
+            "name": "tag"
+          }
+        },
+        "ApiResponse": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "type": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "xml": {
+            "name": "##default"
+          }
+        }
+      },
+      "requestBodies": {
+        "UserArray": {
+          "description": "List of user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "petstore_auth": {
+          "type": "oauth2",
+          "flows": {
+            "implicit": {
+              "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+              "scopes": {
+                "write:pets": "modify pets in your account",
+                "read:pets": "read your pets"
+              }
+            }
+          }
+        },
+        "api_key": {
+          "type": "apiKey",
+          "name": "api_key",
+          "in": "header"
+        }
+      }
+    }
+  }
