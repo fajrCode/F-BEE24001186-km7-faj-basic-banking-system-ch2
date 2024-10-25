@@ -138,6 +138,107 @@ describe('UserService', () => {
                 include: { profile: true }
             });
         });
+
+        test('should throw error Unique constraint violation', async () => {
+            const data = {
+                name: 'John Doe',
+                email: 'john@mail.com',
+                password: 'password',
+                identityType: 'KTP',
+                identityNumber: '1234567890',
+                address: 'Jl. Kenangan No. 1'
+            };
+
+            prisma.user.create.mockRejectedValue({
+                code: 'P2002',
+                message: 'Unique constraint violation'
+            });
+
+            await expect(userService.create(data)).rejects.toThrow(ErrorDbInput);
+            expect(prisma.user.create).toHaveBeenCalledTimes(1);
+            expect(prisma.user.create).toHaveBeenCalledWith({
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    profile: {
+                        create: {
+                            identityTypes: data.identityType,
+                            identityNumber: data.identityNumber,
+                            address: data.address
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+        });
+
+        test('should throw error Record not found (just in case)', async () => {
+            const data = {
+                name: 'John Doe',
+                email: 'john@mail.com',
+                password: 'password',
+                identityType: 'KTP',
+                identityNumber: '1234567890',
+                address: 'Jl. Kenangan No. 1'
+            };
+
+            prisma.user.create.mockRejectedValue({
+                code: 'P2025',
+                message: 'Record not found'
+            });
+
+            await expect(userService.create(data)).rejects.toThrow(Error);
+
+            expect(prisma.user.create).toHaveBeenCalledTimes(1);
+            expect(prisma.user.create).toHaveBeenCalledWith({
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    profile: {
+                        create: {
+                            identityTypes: data.identityType,
+                            identityNumber: data.identityNumber,
+                            address: data.address
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+        });
+
+        test('should throw error UnknownError', async () => {
+            const data = {
+                name: 'John Doe',
+                email: 'john@mail.com',
+                password: 'password',
+                identityType: 'KTP',
+                identityNumber: '1234567890',
+                address: 'Jl. Kenangan No. 1'
+            };
+
+            prisma.user.create.mockRejectedValue(new Error('UnknownError'));
+
+            await expect(userService.create(data)).rejects.toThrow(Error);
+
+            expect(prisma.user.create).toHaveBeenCalledTimes(1);
+            expect(prisma.user.create).toHaveBeenCalledWith({
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    profile: {
+                        create: {
+                            identityTypes: data.identityType,
+                            identityNumber: data.identityNumber,
+                            address: data.address
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+        });
     });
 
     describe('update', () => {
@@ -184,6 +285,107 @@ describe('UserService', () => {
                 },
                 include: { profile: true }
             });
+        });
+
+        test('should throw error Unique constraint violation', async () => {
+            const data = {
+                name: 'John Doe',
+                email: 'john@mail.com',
+                identityType: 'KTP',
+                identityNumber: '1234567890',
+                address: 'Jl. Kenangan No. 1'
+            };
+
+            prisma.user.update.mockRejectedValue({
+                code: 'P2002',
+                message: 'Unique constraint violation'
+            });
+
+            await expect(userService.update(1, data)).rejects.toThrow(ErrorDbInput);
+
+            expect(prisma.user.update).toHaveBeenCalledTimes(1);
+            expect(prisma.user.update).toHaveBeenCalledWith({
+                where: { id: 1 },
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    profile: {
+                        update: {
+                            identityTypes: data.identityType,
+                            identityNumber: data.identityNumber,
+                            address: data.address
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+        });
+
+        test('should throw error Record not found', async () => {
+            const data = {
+                name: 'John Doe',
+                email: 'john@mail.com',
+                identityType: 'KTP',
+                identityNumber: '1234567890',
+                address: 'Jl. Kenangan No. 1'
+            };
+
+            prisma.user.update.mockRejectedValue({
+                code: 'P2025',
+                message: 'Record not found'
+            });
+
+            await expect(userService.update(1, data)).rejects.toThrow(Error);
+
+            expect(prisma.user.update).toHaveBeenCalledTimes(1);
+            expect(prisma.user.update).toHaveBeenCalledWith({
+                where: { id: 1 },
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    profile: {
+                        update: {
+                            identityTypes: data.identityType,
+                            identityNumber: data.identityNumber,
+                            address: data.address
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+        });
+
+        test('should throw error UnknownError', async () => {
+            const data = {
+                name: 'John Doe',
+                email: 'john@mail.com',
+                identityType: 'KTP',
+                identityNumber: '1234567890',
+                address: 'Jl. Kenangan No. 1'
+            };
+
+            prisma.user.update.mockRejectedValue(new Error('UnknownError'));
+
+            await expect(userService.update(1, data)).rejects.toThrow(Error);
+
+            expect(prisma.user.update).toHaveBeenCalledTimes(1);
+
+            expect(prisma.user.update).toHaveBeenCalledWith({
+                where: { id: 1 },
+                data: {
+                    name: data.name,
+                    email: data.email,
+                    profile: {
+                        update: {
+                            identityTypes: data.identityType,
+                            identityNumber: data.identityNumber,
+                            address: data.address
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+
         });
     });
 });
