@@ -27,16 +27,28 @@ export default class UserService extends BaseService {
 
     // Override method getById
     async getById(id) {
-        const user = await this._model.findUnique({
-            where: { id: Number(id) },
-            include: {
-                profile: true,
+        try {
+            const user = await this._model.findUnique({
+                where: { id: Number(id) },
+                include: {
+                    profile: true,
+                }
+            });
+            
+            if (!user) {
+                return null;
             }
-        });
 
-        delete user.password;
-
-        return user;
+            delete user.password;
+    
+            return user;
+        } catch (err) {
+            if (err.code === 'P2025') {
+                throw new Error('RecordNotFoundError');
+            } else {
+                throw new Error('UnknownError');
+            }
+        }
     }
 
     // Override method create
