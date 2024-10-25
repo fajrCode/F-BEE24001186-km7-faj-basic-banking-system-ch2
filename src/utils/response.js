@@ -59,11 +59,11 @@ class ResponseHandler {
         });
     }
 
-    res404(res) {
+    res404(message, res) {
         res.status(404).json({
             status: {
                 code: 404,
-                message: "URL not found!",
+                message,
             },
             data: null,
         });
