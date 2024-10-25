@@ -17,7 +17,7 @@ describe('User Controller', () => {
             json: jest.fn(),
             status: jest.fn().mockReturnThis(),
         };
-
+        
         UserService.prototype.create.mockResolvedValueOnce({ id: 1, ...req.body });
 
         await userCtrl.create(req, res);
