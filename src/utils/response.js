@@ -29,16 +29,6 @@ class ResponseHandler {
         });
     }
 
-    res204(message, res) {
-        res.status(204).json({
-            status: {
-                code: 204,
-                message,
-            },
-            data: null,
-        });
-    }
-
     res400(msg, res) {
         res.status(400).json({
             status: {

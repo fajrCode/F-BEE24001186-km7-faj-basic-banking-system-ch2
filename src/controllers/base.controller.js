@@ -22,7 +22,7 @@ export default class BaseCtrl {
             const id = req.params.id;
             const data = await this._service.getById(id);
             if (!data) {
-                return this.response.res204('Data Not Found', res)
+                return this.response.res404('Data Not Found', res)
             }
             return this.response.res200('Get Data Success', data, res)
         }
@@ -50,7 +50,7 @@ export default class BaseCtrl {
             const data = req.body;
             const updatedData = await this._service.update(id, data);
             if (!updatedData) {
-                return this.response.res204('Data Not Found', res)
+                return this.response.res404('Data Not Found', res)
             }
             return this.response.res200('Update Data Success', updatedData, res)
         }
@@ -65,7 +65,7 @@ export default class BaseCtrl {
             const id = req.params.id;
             const deletedData = await this._service.delete(id);
             if (!deletedData) {
-                return this.response.res204('Data Not Found', res)
+                return this.response.res404('Data Not Found', res)
             }
             return this.response.res200('Delete Data Success', deletedData, res)
         }
