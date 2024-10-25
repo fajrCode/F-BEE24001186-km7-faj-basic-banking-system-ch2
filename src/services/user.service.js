@@ -1,4 +1,5 @@
 // services/userService.js
+import bcrypt from 'bcrypt';
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
 import { ErrorDbInput } from '../utils/custom_error.js';
@@ -42,6 +43,7 @@ export default class UserService extends BaseService {
     // Override method create
     async create(data) {
         try {
+            data.password = await bcrypt.hash(data.password, 10);
             const user = await this._model.create({
                 data: {
                     name: data.name,
