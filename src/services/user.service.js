@@ -1,7 +1,8 @@
 // services/userService.js
+import bcrypt from 'bcrypt';
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
-import { ErrorDbInput } from '../utils/custom_error.js';
+import { Error400 } from '../utils/custom_error.js';
 
 export default class UserService extends BaseService {
     constructor() {
@@ -34,6 +35,8 @@ export default class UserService extends BaseService {
             }
         });
 
+        if(!user) return null;
+
         delete user.password;
 
         return user;
@@ -42,6 +45,7 @@ export default class UserService extends BaseService {
     // Override method create
     async create(data) {
         try {
+            data.password = await bcrypt.hash(data.password, 10);
             const user = await this._model.create({
                 data: {
                     name: data.name,
@@ -64,12 +68,12 @@ export default class UserService extends BaseService {
             return user;
 
         } catch (err) {
-            console.log(err.code);
             if (err.code === 'P2002') {  // Unique constraint violation
-                throw new ErrorDbInput(err.message);
-            } else if (err.code === 'P2025') {  // Record not found (just in case)
-                throw new Error('RecordNotFoundError');
+                const match = err.message.match(/\(([^)]+)\)/); 
+                const message = match ? `${match[1]} already exists` : 'Some field already exists';
+                throw new Error400(message);
             } else {
+                console.log(err.message);
                 throw new Error('UnknownError');  // Fallback to generic error
             }
         }
@@ -101,10 +105,13 @@ export default class UserService extends BaseService {
 
         } catch (err) {
             if (err.code === 'P2002') {  // Unique constraint violation
-                throw new ErrorDbInput(err.message);
+                const match = err.message.match(/\(([^)]+)\)/); 
+                const message = match ? `${match[1]} already exists` : 'Some field already exists';
+                throw new Error400(message);
             } else if (err.code === 'P2025') {  // Record not found (just in case)
-                throw new Error('RecordNotFoundError');
+                throw new Error400('Record not found');
             } else {
+                console.log(err.message);
                 throw new Error('UnknownError');  // Fallback to generic error
             }
         }
