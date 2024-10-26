@@ -11,8 +11,7 @@ export default class AccountCtrl extends BaseCtrl {
     // Override method create from BaseCtrl
     create = async (req, res) => {
         try {
-            // Validation input
-            const { error, value } = createAccountValidator.validate(req.body);
+            const { error, value } = createAccountValidator.validate(req.body); // Validation input
             if (error) {
                 return this.response.res400(`Validation error: ${error.details[0].message}`, res);
             }
@@ -21,11 +20,11 @@ export default class AccountCtrl extends BaseCtrl {
 
             return this.response.res200('Create Bank Account Success', newAccount, res);
         } catch (err) {
-            console.error(err.message);
             if (err instanceof ErrorDbInput) {
                 const message = err.message.split('invocation:').pop().trim();
                 return this.response.res400(message, res);
             } else {
+                console.error(err.message);
                 return this.response.res500(res);   
             }
         }
