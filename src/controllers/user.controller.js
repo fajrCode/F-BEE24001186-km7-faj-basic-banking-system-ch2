@@ -23,6 +23,7 @@ export default class UserCtrl extends BaseCtrl {
         } catch (err) {
             if (err instanceof Error400) {
                 const message = err.message.split('invocation:').pop().trim();
+                console.log(message);
                 return this.response.res400(message, res);
             } else {
                 console.log(err.message);

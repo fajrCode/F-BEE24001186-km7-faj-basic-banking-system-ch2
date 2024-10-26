@@ -84,7 +84,7 @@ describe('User Controller', () => {
         it('should return 400 if error is instance of Error400', async () => {
             req = { body: { name: 'Jane Doe', email: 'jane@mail.com', password: '123456' } };
 
-            UserService.prototype.create.mockRejectedValueOnce(new Error400('Error: Invocation Error'));
+            UserService.prototype.create.mockRejectedValueOnce(new Error400('invocation: error invocation'));
 
             await userCtrl.create(req, res);
 
@@ -137,6 +137,20 @@ describe('User Controller', () => {
             expect(res.json).toHaveBeenCalledWith({
                 status: { code: 200, message: 'Get Data Success' },
                 data: { id: 1, name: 'Jane Doe', email: 'jane@example.com' },
+            });
+        });
+
+        it('should return 404 if user not found', async () => {
+            req = { params: { id: 1 } };
+
+            UserService.prototype.getById.mockResolvedValueOnce(null);
+
+            await userCtrl.getById(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(404);
+            expect(res.json).toHaveBeenCalledWith({
+                status: { code: 404, message: 'Data Not Found' },
+                data: null,
             });
         });
 
@@ -221,9 +235,9 @@ describe('User Controller', () => {
 
             await userCtrl.update(req, res);
 
-            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.status).toHaveBeenCalledWith(201);
             expect(res.json).toHaveBeenCalledWith({
-                status: { code: 200, message: 'Update User and Profile Success' },
+                status: { code: 201, message: 'Update User and Profile Success' },
                 data: { id: 1, ...req.body },
             });
         });
