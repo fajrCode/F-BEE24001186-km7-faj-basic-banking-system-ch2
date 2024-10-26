@@ -36,7 +36,7 @@ export default class BaseCtrl {
         try {
             const data = req.body;
             const newData = await this._service.create(data);
-            return this.response.res200('Create Data Success', newData, res)
+            return this.response.res201('Create Data Success', newData, res)
         }
         catch (err) {
             console.log(err.message)
