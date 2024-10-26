@@ -69,7 +69,9 @@ export default class UserService extends BaseService {
 
         } catch (err) {
             if (err.code === 'P2002') {  // Unique constraint violation
-                throw new Error400('Email already exists');
+                const match = err.message.match(/\(([^)]+)\)/); 
+                const message = match ? `${match[1]} already exists` : 'Some field already exists';
+                throw new Error400(message);
             } else {
                 console.log(err.message);
                 throw new Error('UnknownError');  // Fallback to generic error
@@ -103,7 +105,9 @@ export default class UserService extends BaseService {
 
         } catch (err) {
             if (err.code === 'P2002') {  // Unique constraint violation
-                throw new Error400('Email already exists');
+                const match = err.message.match(/\(([^)]+)\)/); 
+                const message = match ? `${match[1]} already exists` : 'Some field already exists';
+                throw new Error400(message);
             } else if (err.code === 'P2025') {  // Record not found (just in case)
                 throw new Error400('Record not found');
             } else {
