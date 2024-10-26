@@ -37,7 +37,7 @@
   "type": "module",
   "jest": {
     "transform": {
-        "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest"
     }
-}
+  }
 }
