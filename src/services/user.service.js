@@ -69,7 +69,7 @@ export default class UserService extends BaseService {
 
         } catch (err) {
             if (err.code === 'P2002') {  // Unique constraint violation
-                throw new Error400(err.message);
+                throw new Error400('Email already exists');
             } else {
                 console.log(err.message);
                 throw new Error('UnknownError');  // Fallback to generic error
