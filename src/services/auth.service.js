@@ -1,6 +1,7 @@
-import prisma from "../configs/database.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"; 
+import prisma from "../configs/database.js";
+import UserService from "./user.service.js";
 
 export default class AuthService {
     constructor() {
@@ -41,5 +42,11 @@ export default class AuthService {
         }
 
         return result;
+    }
+
+    async register(data) {
+        const userService = new UserService();
+        const user = await userService.create(data);
+        return user;
     }
 }

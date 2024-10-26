@@ -10,5 +10,6 @@ export default class AuthRoute {
 
     initializeRoutes() {
         this.router.post(this.basepath + '/login', this.controller.login);
+        this.router.post(this.basepath + '/register', this.controller.register);
     }
 }

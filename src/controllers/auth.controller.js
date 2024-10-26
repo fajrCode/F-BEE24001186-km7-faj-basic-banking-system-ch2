@@ -24,6 +24,24 @@ export default class AuthController {
                 status: "error",
                 message: msg,
             });
-        }
-    }
+        };
+    };
+
+    register = async (req, res) => {
+        try {
+            const data = req.body;
+            const result = await this.service.register(data);
+            return res.status(200).json({
+                status: "success",
+                message: "Register success",
+                data: result,
+            });
+        } catch (error) {
+            const msg = error.message || "Internal Server Error";
+            return res.status(500).json({
+                status: "error",
+                message: msg,
+            });
+        };
+    };
 }
