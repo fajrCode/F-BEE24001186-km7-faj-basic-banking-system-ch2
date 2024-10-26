@@ -17,8 +17,6 @@ export default class AuthService {
                     email: data.email,
                 },
             });
-
-            console.log(user);
     
             if (!user) {
                 throw new Error400("Email is wrong");
