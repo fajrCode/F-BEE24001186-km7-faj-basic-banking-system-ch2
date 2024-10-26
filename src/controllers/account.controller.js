@@ -1,7 +1,7 @@
 import BaseCtrl from './base.controller.js';
 import AccountService from '../services/account.service.js';
 import createAccountValidator from '../validations/account.validation.js';
-import { ErrorDbInput } from '../utils/custom_error.js';
+import { Error400 } from '../utils/custom_error.js';
 
 export default class AccountCtrl extends BaseCtrl {
     constructor() {
@@ -22,7 +22,7 @@ export default class AccountCtrl extends BaseCtrl {
             return this.response.res200('Create Bank Account Success', newAccount, res);
         } catch (err) {
             console.error(err.message);
-            if (err instanceof ErrorDbInput) {
+            if (err instanceof Error400) {
                 const message = err.message.split('invocation:').pop().trim();
                 return this.response.res400(message, res);
             } else {
