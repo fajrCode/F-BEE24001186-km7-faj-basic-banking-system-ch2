@@ -8,11 +8,12 @@ export class Auth {
 
     authenticate = (req, res, next)=> {
         const { authorization } = req.headers;
-        const token = authorization.split(" ")[1] || authorization;
 
-        if (!token) {
+        if (!authorization) {
             return this.response.res401(res);
         }
+
+        const token = authorization.split(" ")[1] || authorization;
 
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
