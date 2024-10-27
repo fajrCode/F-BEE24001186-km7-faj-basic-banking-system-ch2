@@ -1,7 +1,7 @@
 // services/userService.js
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
-import { ErrorDbInput } from '../utils/custom_error.js';
+import { Error400 } from '../utils/custom_error.js';
 
 export default class AccountService extends BaseService {
     constructor() {
@@ -31,7 +31,7 @@ export default class AccountService extends BaseService {
 
             return account;
         } catch (err) {
-            throw new ErrorDbInput(err.message);
+            throw new Error400(err.message);
         }
     }
 
@@ -62,7 +62,7 @@ export default class AccountService extends BaseService {
         });
 
         if (!account) {
-            throw new ErrorDbInput('Account not found');
+            throw new Error400('Account not found');
         }
 
         delete account.user.password;

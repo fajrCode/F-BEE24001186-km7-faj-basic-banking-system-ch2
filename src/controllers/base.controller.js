@@ -22,7 +22,7 @@ export default class BaseCtrl {
             const id = req.params.id;
             const data = await this._service.getById(id);
             if (!data) {
-                return this.response.res400('Data Not Found', res)
+                return this.response.res404('Data Not Found', res)
             }
             return this.response.res200('Get Data Success', data, res)
         }
@@ -36,7 +36,7 @@ export default class BaseCtrl {
         try {
             const data = req.body;
             const newData = await this._service.create(data);
-            return this.response.res200('Create Data Success', newData, res)
+            return this.response.res201('Create Data Success', newData, res)
         }
         catch (err) {
             console.log(err.message)
