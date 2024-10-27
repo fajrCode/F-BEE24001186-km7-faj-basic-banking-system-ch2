@@ -1,7 +1,7 @@
 import express from 'express';
 import logger from './logger.js';
 import ErrorHandler from '../middlewares/errorHandler.js';
-import apiV1 from '../routes/api/v1/index.js';
+import apiV1 from '../routes/api/v1/index.route.js';
 
 export const app = express();
 
