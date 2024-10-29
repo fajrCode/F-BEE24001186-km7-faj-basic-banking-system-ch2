@@ -1,6 +1,5 @@
 import AuthController from '../auth.controller.js';
 import AuthService from '../../services/auth.service.js';
-import ResponseHandler from '../../utils/response.js';
 import { Error400 } from '../../utils/custom_error.js';
 
 jest.mock('../../services/auth.service.js');
@@ -14,7 +13,6 @@ describe('Testing Auth Controller', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         authController = new AuthController();
-        responseHandler = new ResponseHandler();
         req = {};
         res = {
             json: jest.fn(),
