@@ -1,14 +1,4 @@
 class ResponseHandler {
-    resCustom(code, message, data, res) {
-        res.status(code).json({
-            status: {
-                code,
-                message,
-            },
-            data,
-        });
-    }
-
     res200(message, data, res) {
         res.status(200).json({
             status: {
@@ -49,31 +39,11 @@ class ResponseHandler {
         });
     }
 
-    res403(msg, res) {
-        res.status(403).json({
-            status: {
-                code: 403,
-                message: "Forbidden - " + msg,
-            },
-            data: null,
-        });
-    }
-
-    res404(res) {
+    res404(message, res) {
         res.status(404).json({
             status: {
                 code: 404,
-                message: "URL not found!",
-            },
-            data: null,
-        });
-    }
-
-    res405(res) {
-        res.status(405).json({
-            status: {
-                code: 405,
-                message: "Request method not allowed!",
+                message,
             },
             data: null,
         });

@@ -3,7 +3,7 @@ import ResponseHandler from '../utils/response.js';
 class ErrorHandler {
     static handle404(req, res, next) {
         const responseHandler = new ResponseHandler();
-        responseHandler.res404(res);
+        responseHandler.res404("URL Not Found!", res);
     }
 
     static handleError(err, req, res, next) {
