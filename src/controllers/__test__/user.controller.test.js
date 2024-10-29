@@ -20,18 +20,18 @@ describe('User Controller', () => {
     });
 
     describe('create a user', () => {
-        it('should return 500 other error', async () => {
-            req = {
-                body: {
-                    name: 'Jane Doe',
-                    email: 'jane@mail.com',
-                    password: '123456',
-                    identityType: 'ktp',
-                    identityNumber: '1234567890123456',
-                    address: 'Address'
-                }
-            };
+        req = {
+            body: {
+                name: 'Jane Doe',
+                email: 'jane@example.com',
+                password: '123456',
+                identityType: 'ktp',
+                identityNumber: '1234567890123456',
+                address: 'Address'
+            }
+        };
 
+        it('should return 500 other error', async () => {
             UserService.prototype.create.mockRejectedValueOnce(new Error('UnknownError'));
 
             await userCtrl.create(req, res);
@@ -44,18 +44,34 @@ describe('User Controller', () => {
 
         });
 
-        it('should create a user', async () => {
-            req = {
-                body: {
-                    name: 'Jane Doe',
-                    email: 'jane@example.com',
-                    password: '123456',
-                    identityType: 'ktp',
-                    identityNumber: '1234567890123456',
-                    address: 'Address'
-                }
-            };
+        it('should return 400 if error is instance of Error400', async () => {
+            UserService.prototype.create.mockRejectedValueOnce(new Error400('Email field already exists'));
 
+            await userCtrl.create(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: { code: 400, message: 'Bad Request! - Email field already exists' },
+                data: null,
+            });
+
+        });
+
+        it('should return 400 if validation error', async () => {
+            let reqWrong = { body: { name: 'Jane Doe', email: 'jane@mail.com' } };
+
+            UserService.prototype.create.mockResolvedValueOnce({ id: 1, ...req.body });
+
+            await userCtrl.create(reqWrong, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: { code: 400, message: 'Bad Request! - Validation error: \"password\" is required' },
+                data: null,
+            });
+        });
+
+        it('should create a user', async () => {
             UserService.prototype.create.mockResolvedValueOnce({ id: 1, ...req.body });
 
             await userCtrl.create(req, res);
@@ -65,35 +81,6 @@ describe('User Controller', () => {
                 status: { code: 201, message: 'Create User and Profile Success' },
                 data: { id: 1, ...req.body },
             });
-        });
-
-        it('should return 400 if validation error', async () => {
-            req = { body: { name: 'Jane Doe', email: 'jane@mail.com' } };
-
-            UserService.prototype.create.mockResolvedValueOnce({ id: 1, ...req.body });
-
-            await userCtrl.create(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.json).toHaveBeenCalledWith({
-                status: { code: 400, message: 'Bad Request! - Validation error: \"password\" is required' },
-                data: null,
-            });
-        });
-
-        it('should return 400 if error is instance of Error400', async () => {
-            req = { body: { name: 'Jane Doe', email: 'jane@mail.com', password: '123456' } };
-
-            UserService.prototype.create.mockRejectedValueOnce(new Error400('invocation: error invocation'));
-
-            await userCtrl.create(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.json).toHaveBeenCalledWith({
-                status: { code: 400, message: 'Bad Request! - Validation error: \"identityType\" is required' },
-                data: null,
-            });
-
         });
 
     });

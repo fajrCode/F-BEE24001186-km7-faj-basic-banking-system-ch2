@@ -18,14 +18,13 @@ export default class AccountCtrl extends BaseCtrl {
 
             const newAccount = await this._service.create(value);
 
-            return this.response.res200('Create Bank Account Success', newAccount, res);
+            return this.response.res201('Create Bank Account Success', newAccount, res);
         } catch (err) {
-            console.error(err.message);
             if (err instanceof Error400) {
                 const message = err.message.split('invocation:').pop().trim();
                 return this.response.res400(message, res);
             } else {
-                console.error(err.message);
+                console.log(err.message);
                 return this.response.res500(res);   
             }
         }

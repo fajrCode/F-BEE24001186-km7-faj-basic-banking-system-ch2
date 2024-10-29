@@ -1,7 +1,7 @@
 // services/userService.js
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
-import { Error400 } from '../utils/custom_error.js';
+import { Error400, Error404 } from '../utils/custom_error.js';
 
 export default class AccountService extends BaseService {
     constructor() {
@@ -31,7 +31,14 @@ export default class AccountService extends BaseService {
 
             return account;
         } catch (err) {
-            throw new Error400(err.message);
+            if (err.code === 'P2002') {  // Unique constraint violation
+                const match = err.message.match(/\(([^)]+)\)/); 
+                const message = match ? `${match[1]} already exists` : 'Some field already exists';
+                throw new Error400(message);
+            } else {
+                console.log(err.message);
+                throw new Error('UnknownError');  // Fallback to generic error
+            }
         }
     }
 
@@ -62,7 +69,7 @@ export default class AccountService extends BaseService {
         });
 
         if (!account) {
-            throw new Error400('Account not found');
+            return null;
         }
 
         delete account.user.password;

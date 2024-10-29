@@ -22,9 +22,7 @@ export default class UserCtrl extends BaseCtrl {
             return this.response.res201('Create User and Profile Success', newUser, res);
         } catch (err) {
             if (err instanceof Error400) {
-                const message = err.message.split('invocation:').pop().trim();
-                console.log(message);
-                return this.response.res400(message, res);
+                return this.response.res400(err.message, res);
             } else {
                 console.log(err.message);
                 return this.response.res500(res);
