@@ -26,7 +26,7 @@ export default class TransactionCtrl extends BaseCtrl {
             } else if (err instanceof Error404) {
                 return this.response.res404(err.message, res);
             } else {
-                console.error(err.message);
+                console.log(err.message);
                 return this.response.res500(res);   
             }
         }

@@ -9,6 +9,7 @@ describe('Testing Auth Controller', () => {
     let req;
     let res;
     let mockData;
+    let mockUser;
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -21,6 +22,18 @@ describe('Testing Auth Controller', () => {
         mockData = {
             token: 'token',
         };
+        mockUser = {
+            "id": 24,
+            "name": "fulans",
+            "email": "fulans@gmail.com",
+            "profile": {
+                "id": 14,
+                "userId": 24,
+                "identityTypes": "ktp",
+                "identityNumber": "1571123456789100",
+                "address": "Jln. Jalan 1"
+            }
+        }
     });
 
     describe('Login', () => {
@@ -91,7 +104,7 @@ describe('Testing Auth Controller', () => {
 
     });
 
-    describe('Register', () => { 
+    describe('Register', () => {
         beforeEach(() => {
             req.body = {
                 name: 'Jane Doe',
@@ -139,7 +152,7 @@ describe('Testing Auth Controller', () => {
         });
 
         it('should return 500 if error', async () => {
-            AuthService.prototype.register.mockRejectedValue(new Error('Internal Server Error'));
+            AuthService.prototype.register.mockRejectedValue(new Error('Server error!'));
 
             await authController.register(req, res);
 
@@ -150,7 +163,35 @@ describe('Testing Auth Controller', () => {
             });
         });
 
-     })
+    })
+
+    describe('Authenticate', () => {
+        it('should return user when authenticate success', async () => {
+            req.user = { id: 1 };
+            AuthService.prototype.authenticate.mockResolvedValue(mockUser);
+
+            await authController.authenticate(req, res);
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({
+                status: { code: 200, message: 'Authenticated' },
+                data: mockUser,
+            });
+        });
+
+        it('should return 500 if error', async () => {
+            req.user = { id: 1 };
+            AuthService.prototype.authenticate.mockRejectedValue(new Error('Internal Server Error'));
+
+            await authController.authenticate(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({
+                status: { code: 500, message: 'Server error!' },
+                data: null,
+            });
+        });
+
+    })
 
 });
 

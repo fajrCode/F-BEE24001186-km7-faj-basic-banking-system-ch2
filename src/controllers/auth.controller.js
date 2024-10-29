@@ -22,7 +22,7 @@ export default class AuthController {
             const result = await this.service.login(value);
             return this.response.res200("Login success", result, res);
         } catch (error) {
-            if(error instanceof Error400) {
+            if (error instanceof Error400) {
                 return this.response.res400(error.message, res);
             } else {
                 console.log(error.message);
@@ -42,12 +42,23 @@ export default class AuthController {
             const result = await this.service.register(value);
             return this.response.res200("Register success", result, res);
         } catch (error) {
-            if(error instanceof Error400) {
+            if (error instanceof Error400) {
                 return this.response.res400(error.message, res);
             } else {
-                console.log(error);
+                console.log(error.message);
                 return this.response.res500(res);
             }
         };
     };
-}
+
+    authenticate = async (req, res) => {
+        try {
+            const result = await this.service.authenticate(req.user.id);
+            return this.response.res200("Authenticated", result, res);
+        } catch (error) {
+            console.log(error.message);
+            return this.response.res500(res);
+        };
+    };
+
+};

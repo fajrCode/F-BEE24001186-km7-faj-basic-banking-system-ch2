@@ -90,5 +90,21 @@ describe('Testing Auth Service', () => {
 
     });
 
+    describe('Authenticate', () => {
+        it('should return user when authenticate success', async () => {
+            prisma.user.findUnique.mockResolvedValue(mockUser);
+
+            const result = await authService.authenticate(1);
+
+            expect(result).toEqual(mockUser);
+        });
+
+        it('should throw error when authenticate failed', async () => {
+            prisma.user.findUnique.mockRejectedValue(new Error('Internal Server Error'));
+
+            await expect(authService.authenticate(1)).rejects.toThrow(Error);
+
+        });
+    });
 
 });
