@@ -1,7 +1,7 @@
 // services/userService.js
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
-import { Error400 } from '../utils/custom_error.js';
+import { Error404, Error400 } from '../utils/custom_error.js';
 
 export default class TransactionService extends BaseService {
     constructor() {
@@ -27,9 +27,13 @@ export default class TransactionService extends BaseService {
                 where: { id: data.sourceAccountId },
             });
 
+            if(!sourceAccount) throw new Error404('Source account not found');
+
             const destinationAccount = await prisma.bankAccount.findUnique({
                 where: { id: data.destinationAccountId },
             });
+
+            if(!destinationAccount) throw new Error404('Destination account not found');
 
             // Check if source account not equal to destination account
             if (data.sourceAccountId === data.destinationAccountId) {
@@ -85,14 +89,12 @@ export default class TransactionService extends BaseService {
 
             return transaction;
         } catch (err) {
-            console.error(err.message);
-            if (err.code === 'P2025') {
-                throw new Error400('Account not found');
-            } else if (err.code === 'P2002') {
-                throw new Error400(err.meta.cause);
+            if (err instanceof Error404) {
+                throw new Error404(err.message);
             } else if (err instanceof Error400) {
-                throw err;
+                throw new Error400(err.message);
             } else {
+                console.log(err.message);
                 throw new Error(err.message);
             }
         }
@@ -116,7 +118,7 @@ export default class TransactionService extends BaseService {
 
             return transactions;
         } catch (err) {
-            console.error(err.message);
+            console.log(err.message);
             throw new Error(err.message);
         }
     }
@@ -139,9 +141,11 @@ export default class TransactionService extends BaseService {
 
             });
 
+            if (!transaction) return null;
+
             return transaction;
         } catch (err) {
-            console.error(err.message);
+            console.log(err.message);
             throw new Error(err.message);
         }
     }
@@ -164,7 +168,7 @@ export default class TransactionService extends BaseService {
             });
 
             if (!transaction) {
-                throw new Error400('Transaction not found');
+                throw new Error404('Transaction not found');
             }
 
             // Refund balance source account
@@ -193,10 +197,10 @@ export default class TransactionService extends BaseService {
 
             return transaction;
         } catch (err) {
-            console.error(err.message);
-            if (err.code === 'P2025') {
-                throw new Error400('Transaction not found');
+            if (err.code === 'P2025' || err instanceof Error404) {
+                throw new Error404('Transaction not found');
             } else {
+                console.log(err.message);
                 throw new Error(err.message);
             }
         }
