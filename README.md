@@ -21,6 +21,10 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 - GET /api/v1/transactions => menampilkan daftar transaksi.
 - GET /api/v1/transactions/:transactionId => menampilkan detail transaksi (tampilkan juga pengirim dan penerimanya).
 - DELETE /api/v1/transactions/:transactionId => menghapus data transaksi berdasarkan ID transaksi dan refund balance ke bank account.
+- POST /api/v1/auth/login => melakukan authentikasi login
+- POST /api/v1/auth/register => melakukan registrasi user baru
+- GET /api/v1/auth/authenticate => melakukan pengecekan authentikasi, dengan return data user yang login
+- GET /api/v1/docs => menampilkan dokumentasi api
 
 ## Prerequisites
 - NodeJS V^16
