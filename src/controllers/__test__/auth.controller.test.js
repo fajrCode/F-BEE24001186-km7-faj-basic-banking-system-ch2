@@ -7,7 +7,6 @@ jest.mock('../../services/auth.service.js');
 
 describe('Testing Auth Controller', () => {
     let authController;
-    let responseHandler;
     let req;
     let res;
     let mockData;
@@ -154,7 +153,6 @@ describe('Testing Auth Controller', () => {
         });
 
      })
-
 
 });
 
