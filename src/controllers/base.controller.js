@@ -1,4 +1,5 @@
 import ResponseHandler from "../utils/response.js";
+import { Error404 } from "../utils/custom_error.js";
 
 export default class BaseCtrl {
     constructor(service) {
@@ -27,8 +28,12 @@ export default class BaseCtrl {
             return this.response.res200('Get Data Success', data, res)
         }
         catch (err) {
-            console.log(err.message)
-            return this.response.res500(res)
+            if (err instanceof Error404) {
+                return this.response.res404(err.message, res)
+            } else {
+                console.log(err.message)
+                return this.response.res500(res)
+            }
         }
     }
 
@@ -36,7 +41,7 @@ export default class BaseCtrl {
         try {
             const data = req.body;
             const newData = await this._service.create(data);
-            return this.response.res200('Create Data Success', newData, res)
+            return this.response.res201('Create Data Success', newData, res)
         }
         catch (err) {
             console.log(err.message)
