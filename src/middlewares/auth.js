@@ -6,7 +6,7 @@ export class Auth {
         this.response = new ResponseHandler();
     }
 
-    authenticate = (req, res, next)=> {
+    authenticate = (req, res, next) => {
         const { authorization } = req.headers;
 
         if (!authorization) {
@@ -29,16 +29,11 @@ export class Auth {
     }
 
     checkLoginAuth = (req, res, next) => {
-        try {
-            const { authorization } = req.headers;
-            if(authorization){
-                return this.response.res401(res);
-            }
-            next();
-        } catch (error) {
-            console.log(error.message);
-            return this.response.res500(res);
+        const { authorization } = req.headers;
+        if (authorization) {
+            return this.response.res401(res);
         }
+        next();
     }
 
 }
