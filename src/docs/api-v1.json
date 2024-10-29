@@ -1,0 +1,2953 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Basic Banking System - BinarAPI  V1.0",
+    "description": "StartFragmentStudi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita akan mengintegrasikan sebuah Basic Banking System sederhana menggunakan Express.js dan Prisma.EndFragment.\n\nAuthor: Fajri A",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api/v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Enpoint for feat authentication/authorization"
+    },
+    {
+      "name": "Users",
+      "description": "Endpoint for feat users"
+    },
+    {
+      "name": "Bank Accounts",
+      "description": "Endpoint for feat accounts"
+    },
+    {
+      "name": "Transactions",
+      "description": "Endpoint for feat transactions"
+    },
+    {
+      "name": "Others",
+      "description": "Other routes"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "fulans@gmail.com",
+                  "password": "password"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "229"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"e5-VNmreqrhUE3qb46JJlrDyv5nhto\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 03:00:58 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Login success"
+                  },
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsIm5hbWUiOiJmdWxhbnMiLCJpYXQiOjE3Mjk5MTE2NTgsImV4cCI6MTcyOTkxNTI1OH0.o17X0i_0yphX2Q-ueDE46SbSPmPJ_-HehfNE7JFcIO8"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "77"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"4d-+PMbCOzvUGXGbrYYeM3DtDCU06k\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 03:01:22 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "400 - wrong email",
+                    "value": {
+                      "status": {
+                        "code": 400,
+                        "message": "Bad Request! - Email is wrong"
+                      },
+                      "data": null
+                    }
+                  },
+                  "example-1": {
+                    "summary": "400 - wrong password",
+                    "value": {
+                      "status": {
+                        "code": 400,
+                        "message": "Bad Request! - Password is wrong"
+                      },
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 04:26:00 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "fulan",
+                  "email": "fulan@gmail.com",
+                  "password": "password",
+                  "confirmPassword": "password",
+                  "identityType": "ktp",
+                  "identityNumber": "157112345678910`",
+                  "address": "Jln. Jalan 1"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "229"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"e5-x/2h+nekeXIdBnSE0Ei2og19qZo\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 03:28:45 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Register success"
+                  },
+                  "data": {
+                    "id": 40,
+                    "name": "fulanss",
+                    "email": "fulanss@gmail.com",
+                    "profile": {
+                      "id": 25,
+                      "userId": 40,
+                      "identityTypes": "ktp",
+                      "identityNumber": "157112345678910`",
+                      "address": "Jln. Jalan 1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "105"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"69-etOLSxUiVkZDa1b/WofO365+Duc\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 03:30:33 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "400 - not match confirm password",
+                    "value": {
+                      "status": {
+                        "code": 400,
+                        "message": "Bad Request! - \"confirmPassword\" must be [ref:password]"
+                      },
+                      "data": null
+                    }
+                  },
+                  "example-1": {
+                    "summary": "400 - email is exists",
+                    "value": {
+                      "status": {
+                        "code": 400,
+                        "message": "Bad Request! - `email` already exists"
+                      },
+                      "data": null
+                    }
+                  },
+                  "example-2": {
+                    "summary": "400 - identity_number is exists",
+                    "value": {
+                      "status": {
+                        "code": 400,
+                        "message": "Bad Request! - `identity_number` already exists"
+                      },
+                      "data": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 04:26:58 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/authenticate": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Authenticate",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "224"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"e0-yNYEKwlPTb8KJJPmAZFiAXHVbAM\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:07:08 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Authenticated"
+                  },
+                  "data": {
+                    "id": 24,
+                    "name": "fulans",
+                    "email": "fulans@gmail.com",
+                    "profile": {
+                      "id": 14,
+                      "userId": 24,
+                      "identityTypes": "ktp",
+                      "identityNumber": "1571123456789100",
+                      "address": "Jln. Jalan 1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get All User",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "1241"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"4d9-jiHcHR/CcyiNRQUX23j4GHiRtUA\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 04:46:18 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get All Data Success"
+                  },
+                  "data": [
+                    {
+                      "id": 3,
+                      "name": "fulan",
+                      "email": "fulan2@gmail.com",
+                      "profile": {
+                        "id": 1,
+                        "userId": 3,
+                        "identityTypes": "ktp",
+                        "identityNumber": "1571123456789123",
+                        "address": "Jln. Jalan 1"
+                      }
+                    },
+                    {
+                      "id": 16,
+                      "name": "fulan",
+                      "email": "fulan3@gmail.com",
+                      "profile": {
+                        "id": 11,
+                        "userId": 16,
+                        "identityTypes": "ktp",
+                        "identityNumber": "1571123456789127",
+                        "address": "Jln. Jalan 1"
+                      }
+                    },
+                    {
+                      "id": 17,
+                      "name": "fulan",
+                      "email": "fulan4@gmail.com",
+                      "profile": {
+                        "id": 12,
+                        "userId": 17,
+                        "identityTypes": "ktp",
+                        "identityNumber": "1571123456789129",
+                        "address": "Jln. Jalan 1"
+                      }
+                    },
+                    {
+                      "id": 14,
+                      "name": "fulan",
+                      "email": "fulan5@gmail.com",
+                      "profile": {
+                        "id": 10,
+                        "userId": 14,
+                        "identityTypes": "ktp",
+                        "identityNumber": "1571123456789128",
+                        "address": "Jln. Jalan 1"
+                      }
+                    },
+                    {
+                      "id": 19,
+                      "name": "John Doe",
+                      "email": "john.doe@example.com",
+                      "profile": {
+                        "id": 13,
+                        "userId": 19,
+                        "identityTypes": "ktp",
+                        "identityNumber": "1234567890123456",
+                        "address": "123 Main St"
+                      }
+                    },
+                    {
+                      "id": 24,
+                      "name": "fulans",
+                      "email": "fulans@gmail.com",
+                      "profile": {
+                        "id": 14,
+                        "userId": 24,
+                        "identityTypes": "ktp",
+                        "identityNumber": "1571123456789100",
+                        "address": "Jln. Jalan 1"
+                      }
+                    },
+                    {
+                      "id": 40,
+                      "name": "fulanss",
+                      "email": "fulanss@gmail.com",
+                      "profile": {
+                        "id": 25,
+                        "userId": 40,
+                        "identityTypes": "ktp",
+                        "identityNumber": "157112345678910`",
+                        "address": "Jln. Jalan 1"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 04:42:31 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "61"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3d-GVlqASI9eqZE6epW44eQ65Ft2cw\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 25 Oct 2024 09:08:01 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 500,
+                    "message": "Server error!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "fulans",
+                  "email": "fulans@gmail.com",
+                  "password": "password",
+                  "identityType": "ktp",
+                  "identityNumber": "1571123456789100",
+                  "address": "Jln. Jalan 1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "223"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"df-ynOcNCLcYvKCWXU84Dg3jJVOzXI\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 25 Oct 2024 09:13:28 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get Data Success"
+                  },
+                  "data": {
+                    "id": 3,
+                    "name": "fulan",
+                    "email": "fulan2@gmail.com",
+                    "profile": {
+                      "id": 1,
+                      "userId": 3,
+                      "identityTypes": "ktp",
+                      "identityNumber": "1571123456789123",
+                      "address": "Jln. Jalan 1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 07:22:53 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "62"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3e-o0TSnR1xR+2RLCHMscoBwUnxwzE\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 25 Oct 2024 09:38:41 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 404,
+                    "message": "Data Not Found"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/3": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get One User",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "223"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"df-ynOcNCLcYvKCWXU84Dg3jJVOzXI\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 25 Oct 2024 09:13:28 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get Data Success"
+                  },
+                  "data": {
+                    "id": 3,
+                    "name": "fulan",
+                    "email": "fulan2@gmail.com",
+                    "profile": {
+                      "id": 1,
+                      "userId": 3,
+                      "identityTypes": "ktp",
+                      "identityNumber": "1571123456789123",
+                      "address": "Jln. Jalan 1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 04:46:40 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "62"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3e-o0TSnR1xR+2RLCHMscoBwUnxwzE\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 25 Oct 2024 09:38:41 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 404,
+                    "message": "Data Not Found"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "fulans",
+                  "email": "fulan@gmail.com",
+                  "identityType": "ktp",
+                  "identityNumber": "1571123456789100",
+                  "address": "Jln. Jalan 1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "223"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"df-ynOcNCLcYvKCWXU84Dg3jJVOzXI\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 25 Oct 2024 09:13:28 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get Data Success"
+                  },
+                  "data": {
+                    "id": 3,
+                    "name": "fulan",
+                    "email": "fulan2@gmail.com",
+                    "profile": {
+                      "id": 1,
+                      "userId": 3,
+                      "identityTypes": "ktp",
+                      "identityNumber": "1571123456789123",
+                      "address": "Jln. Jalan 1"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 07:22:53 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "62"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3e-o0TSnR1xR+2RLCHMscoBwUnxwzE\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 25 Oct 2024 09:38:41 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 404,
+                    "message": "Data Not Found"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts": {
+      "get": {
+        "tags": [
+          "Bank Accounts"
+        ],
+        "summary": "Get All  Bank Account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "838"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"346-x7igJR6B4n41Rcuc3YNwLv1li9M\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 07:47:08 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get All Data Success"
+                  },
+                  "data": [
+                    {
+                      "id": 4,
+                      "userId": 3,
+                      "bankName": "Bank Binar 2",
+                      "bankAccountNumber": "1234567892",
+                      "balance": 1000000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan",
+                        "email": "fulan2@gmail.com"
+                      }
+                    },
+                    {
+                      "id": 5,
+                      "userId": 3,
+                      "bankName": "Bank Binar 2",
+                      "bankAccountNumber": "1234567893",
+                      "balance": 1000000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan",
+                        "email": "fulan2@gmail.com"
+                      }
+                    },
+                    {
+                      "id": 6,
+                      "userId": 3,
+                      "bankName": "Bank Binar 3",
+                      "bankAccountNumber": "1234567895",
+                      "balance": 1000000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan",
+                        "email": "fulan2@gmail.com"
+                      }
+                    },
+                    {
+                      "id": 3,
+                      "userId": 3,
+                      "bankName": "Bank Binar 2",
+                      "bankAccountNumber": "1234567891",
+                      "balance": 1000000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan",
+                        "email": "fulan2@gmail.com"
+                      }
+                    },
+                    {
+                      "id": 1,
+                      "userId": 3,
+                      "bankName": "Bank Binar",
+                      "bankAccountNumber": "1234567890",
+                      "balance": 1000000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan",
+                        "email": "fulan2@gmail.com"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 07:46:26 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Bank Accounts"
+        ],
+        "summary": "Create Bank Account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "userId": 24,
+                  "bankName": "Bank Binar 3",
+                  "bankAccountNumber": "1234567812",
+                  "balance": 1000000
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "228"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"e4-sVl1p8Q+Jd9hWq2CHS8Zzc8zLnQ\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:13:28 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 201,
+                    "message": "Create Bank Account Success"
+                  },
+                  "data": {
+                    "id": 8,
+                    "userId": 24,
+                    "bankName": "Bank Binar 3",
+                    "bankAccountNumber": "1234567812",
+                    "balance": 1000000,
+                    "user": {
+                      "id": 24,
+                      "name": "fulans",
+                      "email": "fulans@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:12:30 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/10": {
+      "get": {
+        "tags": [
+          "Bank Accounts"
+        ],
+        "summary": "Get One Bank Account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "212"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"d4-Q3MJGdZSL4B6PWYqF7CZlVGtRg0\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:09:28 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get Data Success"
+                  },
+                  "data": {
+                    "id": 1,
+                    "userId": 3,
+                    "bankName": "Bank Binar",
+                    "bankAccountNumber": "1234567890",
+                    "balance": 1000000,
+                    "user": {
+                      "id": 3,
+                      "name": "fulan",
+                      "email": "fulan2@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "62"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3e-o0TSnR1xR+2RLCHMscoBwUnxwzE\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:09:56 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 404,
+                    "message": "Data Not Found"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Get All Transaction",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "1771"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"6eb-bvrIeAgqnOR47mN74gHWIhHvFok\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 07:49:12 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get All Data Success"
+                  },
+                  "data": [
+                    {
+                      "id": 1,
+                      "amount": 1200000,
+                      "sourceAccount": {
+                        "id": 3,
+                        "bankAccountNumber": "1234567891",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      },
+                      "destinationAccount": {
+                        "id": 1,
+                        "bankAccountNumber": "1234567890",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      }
+                    },
+                    {
+                      "id": 2,
+                      "amount": 1200000,
+                      "sourceAccount": {
+                        "id": 3,
+                        "bankAccountNumber": "1234567891",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      },
+                      "destinationAccount": {
+                        "id": 1,
+                        "bankAccountNumber": "1234567890",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      }
+                    },
+                    {
+                      "id": 3,
+                      "amount": -1,
+                      "sourceAccount": {
+                        "id": 1,
+                        "bankAccountNumber": "1234567890",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      },
+                      "destinationAccount": {
+                        "id": 3,
+                        "bankAccountNumber": "1234567891",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      }
+                    },
+                    {
+                      "id": 4,
+                      "amount": 500000,
+                      "sourceAccount": {
+                        "id": 1,
+                        "bankAccountNumber": "1234567890",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      },
+                      "destinationAccount": {
+                        "id": 3,
+                        "bankAccountNumber": "1234567891",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      }
+                    },
+                    {
+                      "id": 5,
+                      "amount": 500000,
+                      "sourceAccount": {
+                        "id": 1,
+                        "bankAccountNumber": "1234567890",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      },
+                      "destinationAccount": {
+                        "id": 3,
+                        "bankAccountNumber": "1234567891",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      }
+                    },
+                    {
+                      "id": 6,
+                      "amount": 500000,
+                      "sourceAccount": {
+                        "id": 3,
+                        "bankAccountNumber": "1234567891",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      },
+                      "destinationAccount": {
+                        "id": 1,
+                        "bankAccountNumber": "1234567890",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      }
+                    },
+                    {
+                      "id": 7,
+                      "amount": 500000,
+                      "sourceAccount": {
+                        "id": 3,
+                        "bankAccountNumber": "1234567891",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      },
+                      "destinationAccount": {
+                        "id": 1,
+                        "bankAccountNumber": "1234567890",
+                        "balance": 1000000,
+                        "user": {
+                          "id": 3,
+                          "name": "fulan"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 07:48:54 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Create Transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "sourceAccountId": 3,
+                  "destinationAccountId": 1,
+                  "amount": 500000
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "312"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"138-6oSzf3E6KhtWV7etOu9CadGZa6w\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:17:03 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Create Transaction Success"
+                  },
+                  "data": {
+                    "id": 9,
+                    "amount": 500000,
+                    "sourceAccount": {
+                      "id": 3,
+                      "bankAccountNumber": "1234567891",
+                      "balance": 500000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan"
+                      }
+                    },
+                    "destinationAccount": {
+                      "id": 1,
+                      "bankAccountNumber": "1234567890",
+                      "balance": 1500000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:16:48 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/1": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Get All Transaction Copy",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "304"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"130-T9l08D9pNE3YMmUn1dzw8RIcEFo\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:15:07 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Get Data Success"
+                  },
+                  "data": {
+                    "id": 1,
+                    "amount": 1200000,
+                    "sourceAccount": {
+                      "id": 3,
+                      "bankAccountNumber": "1234567891",
+                      "balance": 1000000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan"
+                      }
+                    },
+                    "destinationAccount": {
+                      "id": 1,
+                      "bankAccountNumber": "1234567890",
+                      "balance": 1000000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:15:46 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/9": {
+      "delete": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Delete Transaction",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "305"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"131-N8imRPsg0MLgu1AD0qLOcQJWm2Y\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:21:09 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Delete Data Success"
+                  },
+                  "data": {
+                    "id": 9,
+                    "amount": 500000,
+                    "sourceAccount": {
+                      "id": 3,
+                      "bankAccountNumber": "1234567891",
+                      "balance": 500000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan"
+                      }
+                    },
+                    "destinationAccount": {
+                      "id": 1,
+                      "bankAccountNumber": "1234567890",
+                      "balance": 1500000,
+                      "user": {
+                        "id": 3,
+                        "name": "fulan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "68"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:20:47 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 401,
+                    "message": "Unauthorized Access!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Others"
+        ],
+        "summary": "Root",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "110"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"6e-D4Xa5nUoCLGQjZut8kfmMATxxpE\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 26 Oct 2024 04:28:29 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 200,
+                    "message": "Binar x Fajri API v1 Ready to use (❁´◡`❁) Happy Coding!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "61"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3d-GVlqASI9eqZE6epW44eQ65Ft2cw\""
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 29 Oct 2024 15:18:37 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": {
+                    "code": 500,
+                    "message": "Server error!"
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
