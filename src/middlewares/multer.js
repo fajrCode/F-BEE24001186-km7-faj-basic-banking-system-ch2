@@ -1,26 +1,26 @@
 import multer from "multer";
-import path from "path";
-import { Error400 } from "./custom_error.js";
+// import path from "path";
+import { Error400 } from "../utils/custom_error.js";
 
-const filename = (req, file, cb) => {
-    // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    // const ext = path.extname(file.originalname);
-    // const name = path.basename(file.originalname, ext);
-    // cb(null, `${name}-${uniqueSuffix}${ext}`);
+// const filename = (req, file, cb) => {
+//     // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+//     // const ext = path.extname(file.originalname);
+//     // const name = path.basename(file.originalname, ext);
+//     // cb(null, `${name}-${uniqueSuffix}${ext}`);
 
-    const filename = Date.now() + path.extname(file.originalname);
-    cb(null, filename);
+//     const filename = Date.now() + path.extname(file.originalname);
+//     cb(null, filename);
 
-};
+// };
 
-const generateStorage = (destination) => {
-    return multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, destination);
-        },
-        filename,
-    });
-};
+// const generateStorage = (destination) => {
+//     return multer.diskStorage({
+//         destination: (req, file, cb) => {
+//             cb(null, destination);
+//         },
+//         filename,
+//     });
+// };
 
 export const uploadImage = (destination) => {
     return multer({

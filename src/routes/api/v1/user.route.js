@@ -1,6 +1,6 @@
 import UserCtrl from '../../../controllers/user.controller.js';
 import { Auth } from '../../../middlewares/auth.js';
-import { uploadImage, handleUploadError } from '../../../utils/multer.js';
+import { uploadImage, handleUploadError } from '../../../middlewares/multer.js';
 
 export default class UserRoute {
     constructor(router) {
