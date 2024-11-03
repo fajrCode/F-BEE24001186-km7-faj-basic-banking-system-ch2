@@ -1,4 +1,5 @@
 import ErrorHandler from '../errorHandler.js';
+import { Error400 } from '../../utils/custom_error.js';
 
 describe('Error Handler Middleware', () => {
     let req;
@@ -30,6 +31,19 @@ describe('Error Handler Middleware', () => {
     });
 
     describe('handleError', () => {
+        it('should return 400 with message', () => {
+            const err = new Error400('error');
+            ErrorHandler.handleError(err, req, res, next);
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: {
+                    code: 400,
+                    message: 'Bad Request! - error',
+                },
+                data: null,
+            });
+        });
+
         it('should return 500 with message', () => {
             const err = { message: 'error' };
             ErrorHandler.handleError(err, req, res, next);
