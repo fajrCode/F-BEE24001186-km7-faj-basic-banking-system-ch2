@@ -2,6 +2,7 @@
 import UserService from '../user.service.js';
 import prisma from '../../configs/database.js';
 import { Error400 } from '../../utils/custom_error.js';
+import { imagekit } from '../../utils/imagekit.js';
 
 // Mock prisma dan Error400
 jest.mock('../../configs/database.js', () => ({
@@ -10,6 +11,12 @@ jest.mock('../../configs/database.js', () => ({
         findUnique: jest.fn(),
         create: jest.fn(),
         update: jest.fn(),
+    }
+}));
+
+jest.mock('../../utils/imagekit.js', () => ({
+    imagekit: {
+        upload: jest.fn(),
     }
 }));
 
@@ -505,4 +512,133 @@ describe('UserService', () => {
 
         });
     });
+
+    describe('uploadImage', () => {
+        it('should upload image and return updated user', async () => {
+            const file = {
+                originalname: 'image.jpg',
+                buffer: Buffer.from('image.jpg')
+            };
+
+            const updatedUser = {
+                id: 1,
+                name: 'fulan',
+                email: 'fulan@mail.com',
+                profile: {
+                    identityTypes: 'KTP',
+                    identityNumber: '1234567890',
+                    address: 'Jl. Kenangan No. 1',
+                    imgUrl: 'https://ik.imagekit.io/username/image.jpg'
+                }
+            };
+
+            prisma.user.update.mockResolvedValue(updatedUser);
+            imagekit.upload.mockResolvedValue({
+                url: 'https://ik.imagekit.io/username/image.jpg'
+            });
+
+            const result = await userService.uploadImage(1, file);
+
+            expect(result).toEqual({
+                ...updatedUser,
+                password: undefined
+            });
+
+            expect(prisma.user.update).toHaveBeenCalledTimes(1);
+
+            expect(prisma.user.update).toHaveBeenCalledWith({
+                where: { id: 1 },
+                data: {
+                    profile: {
+                        update: {
+                            imgUrl: 'https://ik.imagekit.io/username/image.jpg'
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+
+            expect(imagekit.upload).toHaveBeenCalledTimes(1);
+
+            expect(imagekit.upload).toHaveBeenCalledWith({
+                file: file.buffer.toString('base64'),
+                fileName: file.originalname,
+                folder: '/profile'
+            });
+
+        });
+
+        it('should throw error when record not found', async () => {
+            const file = {
+                originalname: 'image.jpg',
+                buffer: Buffer.from('image.jpg')
+            };
+
+            prisma.user.update.mockRejectedValue({
+                code: 'P2025',
+                message: 'Record not found'
+            });
+
+            await expect(userService.uploadImage(1, file)).rejects.toThrow(Error400);
+
+            expect(prisma.user.update).toHaveBeenCalledTimes(1);
+
+            expect(prisma.user.update).toHaveBeenCalledWith({
+                where: { id: 1 },
+                data: {
+                    profile: {
+                        update: {
+                            imgUrl: 'https://ik.imagekit.io/username/image.jpg'
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+
+            expect(imagekit.upload).toHaveBeenCalledTimes(1);
+
+            expect(imagekit.upload).toHaveBeenCalledWith({
+                file: file.buffer.toString('base64'),
+                fileName: file.originalname,
+                folder: '/profile'
+            });
+
+        });
+
+        it('should throw error when unknown error', async () => {
+            const file = {
+                originalname: 'image.jpg',
+                buffer: Buffer.from('image.jpg')
+            };
+
+            prisma.user.update.mockRejectedValue(new Error('UnknownError'));
+
+            await expect(userService.uploadImage(1, file)).rejects.toThrow(Error);
+
+            expect(prisma.user.update).toHaveBeenCalledTimes(1);
+
+            expect(prisma.user.update).toHaveBeenCalledWith({
+                where: { id: 1 },
+                data: {
+                    profile: {
+                        update: {
+                            imgUrl: 'https://ik.imagekit.io/username/image.jpg'
+                        }
+                    }
+                },
+                include: { profile: true }
+            });
+
+            expect(imagekit.upload).toHaveBeenCalledTimes(1);
+
+            expect(imagekit.upload).toHaveBeenCalledWith({
+                file: file.buffer.toString('base64'),
+                fileName: file.originalname,
+                folder: '/profile'
+            });
+
+        });
+
+    });
+
 });
