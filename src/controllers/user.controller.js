@@ -58,7 +58,6 @@ export default class UserCtrl extends BaseCtrl {
             if (!req.file) {
                 return this.response.res400('Please select an image to upload', res);
             }
-            console.log(req.file);
 
             const updatedUser = await this._service.uploadImage(req.user.id, req.file);
 

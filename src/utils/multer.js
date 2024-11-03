@@ -24,7 +24,7 @@ const generateStorage = (destination) => {
 
 export const uploadImage = (destination) => {
     return multer({
-        storage: generateStorage(destination),
+        // storage: generateStorage(destination), // for local storage
         fileFilter: (req, file, cb) => {
             const allowedMimesTypes = ["image/jpeg", "image/png", "image/png"];
             if (allowedMimesTypes.includes(file.mimetype)) {
