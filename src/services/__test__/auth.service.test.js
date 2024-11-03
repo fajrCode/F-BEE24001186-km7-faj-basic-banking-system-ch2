@@ -73,11 +73,14 @@ describe('Testing Auth Service', () => {
             expect(result).toEqual(mockUser);
         });
 
-        it('should throw error when register failed', async () => {
-            prisma.user.create.mockRejectedValue({
-                code: 'P2002',
-                message: 'Unique constraint violation'
-            });
+        it('should throw error when email already exists', async () => {
+            prisma.user.create.mockRejectedValue({ code: 'P2002', message: '(email) already exists' });
+
+            await expect(authService.register(mockData)).rejects.toThrow(Error400);
+        });
+
+        it('should throw error ehten some field already exists', async () => {
+            prisma.user.create.mockRejectedValue({ code: 'P2002', message: 'some field already exists' });
 
             await expect(authService.register(mockData)).rejects.toThrow(Error400);
         });
@@ -99,11 +102,18 @@ describe('Testing Auth Service', () => {
             expect(result).toEqual(mockUser);
         });
 
+        it('should return null when user not found', async () => {
+            prisma.user.findUnique.mockResolvedValue(null);
+
+            const result = await authService.authenticate(1);
+
+            expect(result).toBeNull();
+        });
+
         it('should throw error when authenticate failed', async () => {
             prisma.user.findUnique.mockRejectedValue(new Error('Internal Server Error'));
 
             await expect(authService.authenticate(1)).rejects.toThrow(Error);
-
         });
     });
 
