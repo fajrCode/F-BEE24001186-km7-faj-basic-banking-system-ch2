@@ -245,27 +245,34 @@ describe('User Controller', () => {
 
     })
 
-    describe('delete a user', () => {
-        it('should delete a user', async () => {
-            req = { params: { id: 1 } };
+    describe('update a user image profile', () => {
+        let mockResponse = {
+            "id": 24,
+            "name": "fulans",
+            "email": "fulans@gmail.com",
+            "profile": {
+                "id": 14,
+                "userId": 24,
+                "identityTypes": "ktp",
+                "identityNumber": "1571123456789100",
+                "address": "Jln. Jalan 1",
+                "imgUrl": "https://ik.imagekit.io/username/folder/image.jpg"
+            }
+        };
 
-            UserService.prototype.delete.mockResolvedValueOnce({ id: 1 });
+        beforeEach(() => {
+            jest.clearAllMocks();
 
-            await userCtrl.delete(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({
-                status: { code: 200, message: 'Delete Data Success' },
-                data: { id: 1 },
-            });
+            req = {
+                user: { id: 1 },
+                file: { filename: 'default.jpg' }
+            };
         });
 
         it('should return 500 other error', async () => {
-            req = { params: { id: 1 } };
+            UserService.prototype.uploadImage.mockRejectedValueOnce(new Error('UnknownError'));
 
-            UserService.prototype.delete.mockRejectedValueOnce(new Error('UnknownError'));
-
-            await userCtrl.delete(req, res);
+            await userCtrl.uploadImage(req, res);
 
             expect(res.status).toHaveBeenCalledWith(500);
             expect(res.json).toHaveBeenCalledWith({
@@ -274,5 +281,36 @@ describe('User Controller', () => {
             });
         });
 
-    })
+        it('should upload image profile', async () => {
+            UserService.prototype.uploadImage.mockResolvedValueOnce(mockResponse);
+
+            await userCtrl.uploadImage(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(201);
+
+            expect(res.json).toHaveBeenCalledWith({
+                status: { code: 201, message: 'Upload Image Success' },
+                data: mockResponse
+            });
+        });
+
+        it('should return 400 if no file uploaded', async () => {
+            req = { user: { id: 1 } };
+
+            UserService.prototype.uploadImage.mockResolvedValueOnce(null);
+
+            await userCtrl.uploadImage(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+
+            expect(res.json).toHaveBeenCalledWith({
+                status: { code: 400, message: 'Bad Request! - Please select an image to upload' },
+                data: null,
+            });
+
+
+        });
+
+    });
+
 });
