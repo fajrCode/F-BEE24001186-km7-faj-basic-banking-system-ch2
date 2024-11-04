@@ -6,7 +6,7 @@
   "scripts": {
     "start": "SET NODE_ENV=production&&node ./src/server.js",
     "dev": "SET NODE_ENV=development&&nodemon ./src/server.js",
-    "test": "SET NODE_ENV=test&&jest --coverage"
+    "test": "jest --coverage"
   },
   "keywords": [
     "express",
