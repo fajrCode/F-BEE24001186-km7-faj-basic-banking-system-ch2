@@ -2,6 +2,7 @@
 import UserService from '../user.service.js';
 import prisma from '../../configs/database.js';
 import { Error400 } from '../../utils/custom_error.js';
+import { imagekit } from '../../utils/imagekit.js';
 
 // Mock prisma dan Error400
 jest.mock('../../configs/database.js', () => ({
@@ -20,8 +21,6 @@ jest.mock('imagekit', () => {
         deleteFile: jest.fn(() => Promise.resolve({}))
     }));
 });
-
-import { imagekit } from '../../utils/imagekit.js';
 
 describe('UserService', () => {
     let userService;

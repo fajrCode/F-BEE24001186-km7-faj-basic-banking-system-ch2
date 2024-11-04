@@ -1,10 +1,9 @@
 // src/controllers/__tests__/user.controller.test.js
 import UserCtrl from '../user.controller.js';
+import UserService from '../../services/user.service.js';
 import { Error400 } from '../../utils/custom_error.js';
 
 jest.mock('../../services/user.service.js'); // Mock UserService
-
-import UserService from '../../services/user.service.js';
 
 describe('User Controller', () => {
     let userCtrl;
