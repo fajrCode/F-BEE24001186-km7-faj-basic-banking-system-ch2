@@ -9,21 +9,26 @@ on:
       - dev  # Run CI on pull requests to the "dev" branch
 
 jobs:
-  build:
+  lint-test:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [20]  # Test against multiple Node.js versions
 
+    env:
+      IMAGEKIT_PUBLIC_KEY: ${ { secrets.IMAGEKIT_PUBLIC_KEY } }
+      IMAGEKIT_PRIVATE_KEY: ${ { secrets.IMAGEKIT_PRIVATE_KEY } }
+      IMAGEKIT_URL_ENDPOINT: ${ { secrets.IMAGEKIT_URL_ENDPOINT } }
+
     steps:
       # Step 1: Check out the repository
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: Set up Node.js
       - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -31,7 +36,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run tests
+      # Step 4: Lint code
+      - name: Lint code
+        run: npm run lint
+
+      # Step 5: Run tests
       - name: Run tests
         env:
           NODE_ENV: test
