@@ -1,7 +1,7 @@
 // services/userService.js
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
-import { Error400, Error404 } from '../utils/custom_error.js';
+import { Error400 } from '../utils/custom_error.js';
 
 export default class AccountService extends BaseService {
     constructor() {

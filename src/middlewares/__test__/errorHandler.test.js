@@ -1,4 +1,5 @@
 import ErrorHandler from '../errorHandler.js';
+import { jest, describe, beforeEach, it, expect } from '@jest/globals';
 import { Error400 } from '../../utils/custom_error.js';
 
 describe('Error Handler Middleware', () => {
@@ -57,6 +58,12 @@ describe('Error Handler Middleware', () => {
             });
 
         });
+
+        it('should call next', () => {
+            ErrorHandler.handleError(null, req, res, next);
+            expect(next).toHaveBeenCalled();
+        });
+
     });
 
 });

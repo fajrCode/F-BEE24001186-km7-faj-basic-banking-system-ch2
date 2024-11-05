@@ -22,9 +22,9 @@ import { Error400 } from "../utils/custom_error.js";
 //     });
 // };
 
-export const uploadImage = (destination) => {
+export const uploadImage = () => {
     return multer({
-        // storage: generateStorage(destination), // for local storage
+        // storage: generateStorage(destination), // for local storage, destination from params function
         fileFilter: (req, file, cb) => {
             const allowedMimesTypes = ["image/jpeg", "image/png", "image/png"];
             if (allowedMimesTypes.includes(file.mimetype)) {
