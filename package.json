@@ -7,7 +7,7 @@
     "start": "SET NODE_ENV=production&&node ./src/server.js",
     "dev": "SET NODE_ENV=development&&nodemon ./src/server.js",
     "test": "jest --coverage",
-    "lint": "eslint ./src --ignore-pattern **/__test__/"
+    "lint": "eslint ./src"
   },
   "keywords": [
     "express",
