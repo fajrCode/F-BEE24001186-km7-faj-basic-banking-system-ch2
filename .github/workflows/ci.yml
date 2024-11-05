@@ -45,3 +45,11 @@ jobs:
         env:
           NODE_ENV: test
         run: npm test
+
+      # Step 6: Integrasion Coverage Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info    # Jalur ke file lcov coverage, pastikan jalur ini benar
+          flags: unittests
+          token: ${{ secrets.CODECOV_TOKEN }} # Hanya perlu untuk repositori private
