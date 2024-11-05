@@ -17,9 +17,9 @@ jobs:
         node-version: [20]  # Test against multiple Node.js versions
 
     env:
-      IMAGEKIT_PUBLIC_KEY: ${ { secrets.IMAGEKIT_PUBLIC_KEY } }
-      IMAGEKIT_PRIVATE_KEY: ${ { secrets.IMAGEKIT_PRIVATE_KEY } }
-      IMAGEKIT_URL_ENDPOINT: ${ { secrets.IMAGEKIT_URL_ENDPOINT } }
+      IMAGEKIT_PUBLIC_KEY: ${{ secrets.IMAGEKIT_PUBLIC_KEY }}
+      IMAGEKIT_PRIVATE_KEY: ${{ secrets.IMAGEKIT_PRIVATE_KEY }}
+      IMAGEKIT_URL_ENDPOINT: ${{ secrets.IMAGEKIT_URL_ENDPOINT }}
 
     steps:
       # Step 1: Check out the repository
