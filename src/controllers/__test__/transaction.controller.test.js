@@ -1,3 +1,4 @@
+import { describe, expect, it, jest, beforeEach } from "@jest/globals";
 import TransactionCtrl from "../transaction.controller";
 import TransactionService from "../../services/transaction.service";
 import { Error400, Error404 } from "../../utils/custom_error";
@@ -105,7 +106,7 @@ describe('transaction controller', () => {
             await transactionCtrl.create(req, res);
             expect(res.status).toHaveBeenCalledWith(400);
             expect(res.json).toHaveBeenCalledWith({
-                status: { code: 400, message: 'Bad Request! - Validation error: \"destinationAccountId\" must be a number' },
+                status: { code: 400, message: 'Bad Request! - Validation error: "destinationAccountId" must be a number' },
                 data: null,
             });
         });

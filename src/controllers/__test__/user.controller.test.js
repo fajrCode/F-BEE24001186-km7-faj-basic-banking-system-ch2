@@ -1,4 +1,4 @@
-// src/controllers/__tests__/user.controller.test.js
+import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import UserCtrl from '../user.controller.js';
 import UserService from '../../services/user.service.js';
 import { Error400 } from '../../utils/custom_error.js';
@@ -66,7 +66,7 @@ describe('User Controller', () => {
 
             expect(res.status).toHaveBeenCalledWith(400);
             expect(res.json).toHaveBeenCalledWith({
-                status: { code: 400, message: 'Bad Request! - Validation error: \"password\" is required' },
+                status: { code: 400, message: 'Bad Request! - Validation error: "password" is required' },
                 data: null,
             });
         });
@@ -238,7 +238,7 @@ describe('User Controller', () => {
 
             expect(res.status).toHaveBeenCalledWith(400);
             expect(res.json).toHaveBeenCalledWith({
-                status: { code: 400, message: 'Bad Request! - Validation error: \"email\" is required' },
+                status: { code: 400, message: 'Bad Request! - Validation error: "email" is required' },
                 data: null,
             });
         });

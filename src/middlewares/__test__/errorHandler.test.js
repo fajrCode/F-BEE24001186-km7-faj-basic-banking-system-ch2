@@ -1,5 +1,5 @@
-import ErrorHandler from '../errorHandler.js';
 import { jest, describe, beforeEach, it, expect } from '@jest/globals';
+import ErrorHandler from '../errorHandler.js';
 import { Error400 } from '../../utils/custom_error.js';
 
 describe('Error Handler Middleware', () => {

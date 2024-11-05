@@ -1,3 +1,4 @@
+import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import BaseService from "../base.service.js";
 import prisma from "../../configs/database.js";
 

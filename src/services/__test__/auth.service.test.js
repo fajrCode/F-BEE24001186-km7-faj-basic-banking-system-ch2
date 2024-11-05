@@ -1,3 +1,4 @@
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import AuthService from '../auth.service';

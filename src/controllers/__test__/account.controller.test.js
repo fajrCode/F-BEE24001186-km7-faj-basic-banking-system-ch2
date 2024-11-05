@@ -1,3 +1,4 @@
+import { describe, expect, it, jest, beforeEach } from "@jest/globals";
 import AccountCtrl from "../account.controller";
 import AccountService from "../../services/account.service";
 import { Error400, Error404 } from "../../utils/custom_error";
@@ -146,7 +147,7 @@ describe('account controller', () => {
             await accountCtrl.create(reqWrong, res);
             expect(res.status).toHaveBeenCalledWith(400);
             expect(res.json).toHaveBeenCalledWith({
-                status: { code: 400, message: 'Bad Request! - Validation error: \"bankAccountNumber\" is not allowed to be empty' },
+                status: { code: 400, message: 'Bad Request! - Validation error: "bankAccountNumber" is not allowed to be empty' },
                 data: null
             });
         });

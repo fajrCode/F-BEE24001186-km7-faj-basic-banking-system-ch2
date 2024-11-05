@@ -1,4 +1,4 @@
-// Unit it for userService.js
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import UserService from '../user.service.js';
 import prisma from '../../configs/database.js';
 import { Error400 } from '../../utils/custom_error.js';

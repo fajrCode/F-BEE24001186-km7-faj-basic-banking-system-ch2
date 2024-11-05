@@ -1,3 +1,4 @@
+import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import AccountService from '../account.service';
 import prisma from '../../configs/database.js';
 import { Error400 } from '../../utils/custom_error.js';

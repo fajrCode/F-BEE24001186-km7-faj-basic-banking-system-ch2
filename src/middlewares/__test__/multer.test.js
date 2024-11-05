@@ -1,5 +1,5 @@
-import { uploadImage, handleUploadError } from "../multer.js";
 import { jest, describe, beforeEach, afterEach, it, expect } from "@jest/globals";
+import { uploadImage, handleUploadError } from "../multer.js";
 import multer from "multer";
 import { Error400 } from "../../utils/custom_error.js";
 
