@@ -19,7 +19,7 @@ try {
     };
 
     server.listen(port, () => {
-        console.log(`🚀 Server is on ${host}`);
+        console.log(`🚀 Server is on ${host || ''}`);
     });
 } catch (error) {
     console.error(`Error: ${error.message}`);

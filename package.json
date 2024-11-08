@@ -9,6 +9,9 @@
     "test": "jest --coverage",
     "lint": "eslint ./src"
   },
+  "engines": {
+    "node": ">=20.x"
+  },
   "keywords": [
     "express",
     "prisma",
