@@ -66,7 +66,25 @@ jobs:
         node-version: [20]  # Test against multiple Node.js versions
 
     steps:
-      # Step 1: Deploy to App Engine
+      # Step 1: Check out the repository
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Step 3: Install pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: pnpm install
+
+      # Step 5: Deploy to App Engine
       - name: Google Cloud Auth
         uses: 'google-github-actions/auth@v2'
         with:
