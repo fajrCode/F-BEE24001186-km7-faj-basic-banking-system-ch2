@@ -30,7 +30,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"fulans@gmail.com\",\r\n  \"password\": \"password\"\r\n}",
+							"raw": "{\r\n  \"email\": \"fulan@gmail.com\",\r\n  \"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1307,7 +1307,7 @@
 								}
 							]
 						},
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -1326,6 +1326,210 @@
 							"path": [
 								"users",
 								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/3",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "223"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"df-ynOcNCLcYvKCWXU84Dg3jJVOzXI\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Oct 2024 09:13:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": {\n        \"code\": 200,\n        \"message\": \"Get Data Success\"\n    },\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"fulan\",\n        \"email\": \"fulan2@gmail.com\",\n        \"profile\": {\n            \"id\": 1,\n            \"userId\": 3,\n            \"identityTypes\": \"ktp\",\n            \"identityNumber\": \"1571123456789123\",\n            \"address\": \"Jln. Jalan 1\"\n        }\n    }\n}"
+						},
+						{
+							"name": "401 - unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"fulans\",\r\n  \"email\": \"fulans@gmail.com\",\r\n  \"password\": \"password\",\r\n  \"identityType\": \"ktp\",\r\n  \"identityNumber\": \"1571123456789100\",\r\n  \"address\": \"Jln. Jalan 1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 26 Oct 2024 07:22:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": {\n        \"code\": 401,\n        \"message\": \"Unauthorized Access!\"\n    },\n    \"data\": null\n}"
+						},
+						{
+							"name": "404 - data not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "62"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3e-o0TSnR1xR+2RLCHMscoBwUnxwzE\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Oct 2024 09:38:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": {\n        \"code\": 404,\n        \"message\": \"Data Not Found\"\n    },\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Update foto Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/urang/Pictures/My Picture/Wallpaper/dev.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/users/upload/profile-image",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"upload",
+								"profile-image"
 							]
 						}
 					},
@@ -1801,66 +2005,6 @@
 					},
 					"response": [
 						{
-							"name": "401 - unauthorized",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"userId\": 3,\r\n  \"bankName\": \"Bank Binar 3\",\r\n  \"bankAccountNumber\": \"1234567895\",\r\n  \"balance\": 1000000\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/accounts",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"accounts"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "68"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 29 Oct 2024 15:12:30 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"status\": {\n        \"code\": 401,\n        \"message\": \"Unauthorized Access!\"\n    },\n    \"data\": null\n}"
-						},
-						{
 							"name": "200 - success",
 							"originalRequest": {
 								"method": "POST",
@@ -1919,6 +2063,66 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"status\": {\n        \"code\": 201,\n        \"message\": \"Create Bank Account Success\"\n    },\n    \"data\": {\n        \"id\": 8,\n        \"userId\": 24,\n        \"bankName\": \"Bank Binar 3\",\n        \"bankAccountNumber\": \"1234567812\",\n        \"balance\": 1000000,\n        \"user\": {\n            \"id\": 24,\n            \"name\": \"fulans\",\n            \"email\": \"fulans@gmail.com\"\n        }\n    }\n}"
+						},
+						{
+							"name": "401 - unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": 3,\r\n  \"bankName\": \"Bank Binar 3\",\r\n  \"bankAccountNumber\": \"1234567895\",\r\n  \"balance\": 1000000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/accounts",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"accounts"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-2wGEsQwtrGQ9V9kkHhoaW3ZsZ3Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 29 Oct 2024 15:12:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": {\n        \"code\": 401,\n        \"message\": \"Unauthorized Access!\"\n    },\n    \"data\": null\n}"
 						}
 					]
 				}
