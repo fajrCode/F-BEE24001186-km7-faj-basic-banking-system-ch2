@@ -19,7 +19,7 @@ describe('Index Controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
-            status: { code: 200, message: 'Binar x Fajri API v1 Ready to use (❁´◡`❁) Happy Coding!' },
+            status: { code: 200, message: 'Binar x Fajri API v1 Ready to use (❁´◡`❁) Happy Coding!!!' },
             data: null,
         });
     });
