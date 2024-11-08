@@ -4,16 +4,21 @@
 Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita akan mengintegrasikan sebuah Basic Banking System sederhana menggunakan Express.js dan Prisma.js.
 
 ### Flowchart
-![Flowchart Bank System](public/images/flowchart.webp)
+![Flowchart Bank System](public/images/design/flowchart.webp)
 
 ### ERD
-![ERD Bank System](public/images/new-erd.jpg)
+![ERD Bank System](public/images/design/new-erd.jpg)
+
+### Coverage
+![Coverage Test](public/images/design/coverage.png)
+![Codecov Coverage Test](https://app.codecov.io/github/fajrCode/F-BEE24001186-km7-faj-basic-banking-system-ch2/tree/dev/src%2Fcontrollers)
 
 ## List Endpoints
 - POST /api/v1/users => menambahkan user baru beserta dengan profilnya.
 - GET /api/v1/users => menampilkan daftar users.
 - GET /api/v1/users/:userId => menampilkan detail informasi user (tampilkan juga profilnya).
-- PUT /api/v1/users/:userId => melakukan update data users beserta profilenya.
+- PATCH /api/v1/users/:userId => melakukan update data users beserta profilenya.
+- PATCH /api/v1/users/upload/profile-image => melakukan update foto profile user. (NEW !!!)
 - POST /api/v1/accounts => menambahkan akun baru ke user yang sudah didaftarkan.
 - GET /api/v1/accounts => menampilkan daftar akun.
 - GET /api/v1/accounts/:accountId => menampilkan detail akun.
@@ -28,7 +33,7 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 
 ## Prerequisites
 - NodeJS V^16
-- PostgreSQL V^14
+- PostgreSQL V^16
 
 ## How To Use
 1. Pastikan di local komputer telah terinstall nodejs, dan git
