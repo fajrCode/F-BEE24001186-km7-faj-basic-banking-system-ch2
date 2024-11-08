@@ -68,11 +68,6 @@ jobs:
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
 
-      - name: pull request
-        run: |
-          cd ~/F-BEE24001186-km7-faj-basic-banking-system-ch2
-          git pull origin main
-
       - name: Deploy to Google App Engine
         run: |
           gcloud app deploy app.yaml
