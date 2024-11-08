@@ -11,7 +11,7 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 
 ### Coverage
 ![Coverage Test](public/images/design/coverage.png)
-![Codecov Coverage Test](https://app.codecov.io/github/fajrCode/F-BEE24001186-km7-faj-basic-banking-system-ch2/tree/dev/src%2Fcontrollers)
+[Codecov Coverage Test](https://app.codecov.io/github/fajrCode/F-BEE24001186-km7-faj-basic-banking-system-ch2/tree/dev/src%2Fcontrollers)
 
 ## List Endpoints
 - POST /api/v1/users => menambahkan user baru beserta dengan profilnya.
