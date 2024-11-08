@@ -7,7 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5000/api/v1"
+      "url": "https://fajri-learning-workspace.as.r.appspot.com/api/v1",
+      "description": "Production Server"
+    },
+    {
+      "url": "http://localhost:5000/api/v1",
+      "description": "Development Server"
     }
   ],
   "components": {
