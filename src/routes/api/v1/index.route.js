@@ -4,7 +4,7 @@ import UserRoute from './user.route.js';
 import AccountRoute from './account.route.js';
 import TransactionRoute from './transaction.route.js';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../../../docs/api-v1.json' assert { type: "json" };
+import swaggerDocument from '../../../docs/api-v1.json' with { type: "json" };
 import AuthRoute from './auth.route.js';
 
 export default (app) => {

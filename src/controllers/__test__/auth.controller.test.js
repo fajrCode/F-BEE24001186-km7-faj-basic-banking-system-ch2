@@ -1,3 +1,4 @@
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import AuthController from '../auth.controller.js';
 import AuthService from '../../services/auth.service.js';
 import { Error400 } from '../../utils/custom_error.js';
@@ -134,7 +135,7 @@ describe('Testing Auth Controller', () => {
 
             expect(res.status).toHaveBeenCalledWith(400);
             expect(res.json).toHaveBeenCalledWith({
-                status: { code: 400, message: 'Bad Request! - \"email\" must be a valid email' },
+                status: { code: 400, message: 'Bad Request! - "email" must be a valid email' },
                 data: null,
             });
         });

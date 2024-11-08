@@ -52,4 +52,20 @@ export default class UserCtrl extends BaseCtrl {
         }
     };
 
+    // Add new method uploadImage
+    uploadImage = async (req, res) => {
+        try {
+            if (!req.file) {
+                return this.response.res400('Please select an image to upload', res);
+            }
+
+            const updatedUser = await this._service.uploadImage(req.user.id, req.file);
+
+            return this.response.res201('Upload Image Success', updatedUser, res);
+        } catch (err) {
+            console.log(err.message);
+            return this.response.res500(res);
+        }
+    };
+
 }

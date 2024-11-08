@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import BaseService from './base.service.js';
 import prisma from '../configs/database.js';
 import { Error400 } from '../utils/custom_error.js';
+import { imagekit } from '../utils/imagekit.js';
 
 export default class UserService extends BaseService {
     constructor() {
@@ -35,7 +36,7 @@ export default class UserService extends BaseService {
             }
         });
 
-        if(!user) return null;
+        if (!user) return null;
 
         delete user.password;
 
@@ -69,7 +70,7 @@ export default class UserService extends BaseService {
 
         } catch (err) {
             if (err.code === 'P2002') {  // Unique constraint violation
-                const match = err.message.match(/\(([^)]+)\)/); 
+                const match = err.message.match(/\(([^)]+)\)/);
                 const message = match ? `${match[1]} already exists` : 'Some field already exists';
                 throw new Error400(message);
             } else {
@@ -105,7 +106,7 @@ export default class UserService extends BaseService {
 
         } catch (err) {
             if (err.code === 'P2002') {  // Unique constraint violation
-                const match = err.message.match(/\(([^)]+)\)/); 
+                const match = err.message.match(/\(([^)]+)\)/);
                 const message = match ? `${match[1]} already exists` : 'Some field already exists';
                 throw new Error400(message);
             } else if (err.code === 'P2025') {  // Record not found (just in case)
@@ -113,6 +114,44 @@ export default class UserService extends BaseService {
             } else {
                 console.log(err.message);
                 throw new Error('UnknownError');  // Fallback to generic error
+            }
+        }
+    }
+
+    // Add new method uploadImage
+    async uploadImage(id, file) {
+        try {
+            // Upload image to ImageKit
+            const uploadFile = await imagekit.upload({
+                file: file.buffer.toString('base64'),
+                fileName: file.originalname,
+                folder: '/profile',
+            });
+
+            // const filename = process.env.HOST + '/public/images/profiles/' + file.filename; // Local storage
+            const user = await this._model.update({
+                where: { id: Number(id) },
+                data: {
+                    profile: {
+                        update: {
+                            imgUrl: uploadFile.url,
+                        }
+                    }
+                },
+                include: {
+                    profile: true,
+                }
+            });
+
+            delete user.password;
+            return user;
+
+        } catch (err) {
+            if (err.code === 'P2025') {  // Record not found
+                throw new Error400('Record not found');
+            } else {
+                console.log(err.message);
+                throw new Error('Server Error!');  // Fallback to generic error
             }
         }
     }

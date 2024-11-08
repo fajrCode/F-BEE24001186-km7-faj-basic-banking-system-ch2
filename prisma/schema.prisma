@@ -33,6 +33,7 @@ model Profile {
   identityTypes  String @map("identity_types")
   identityNumber String @unique @map("identity_number")
   address        String
+  imgUrl         String? @map("img_url")
 
   user User @relation(fields: [userId], references: [id])
 

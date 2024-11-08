@@ -24,6 +24,7 @@ export class Auth {
             req.user = payload;
             next();
         } catch (error) {
+            console.log(error.message)
             return this.response.res401(res);
         }
     }
