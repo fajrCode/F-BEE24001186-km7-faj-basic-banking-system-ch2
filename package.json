@@ -1,7 +1,7 @@
 {
   "name": "f-bee24001186-km7-faj-basic-banking-system-ch2",
   "version": "1.0.0",
-  "description": "Challenge 4",
+  "description": "Challenge 6",
   "main": "./src/server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./src/server.js",
