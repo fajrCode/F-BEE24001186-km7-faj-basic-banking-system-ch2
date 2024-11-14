@@ -4,8 +4,8 @@
   "description": "Challenge 6",
   "main": "./src/server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node ./src/server.js",
-    "dev": "cross-env NODE_ENV=development nodemon ./src/server.js",
+    "start": "cross-env NODE_ENV=production node ./src/server.js --no-warnings",
+    "dev": "cross-env NODE_ENV=development nodemon --exec 'node --no-warnings' ./src/server.js",
     "test": "jest --coverage",
     "lint": "eslint ./src"
   },
@@ -21,9 +21,10 @@
   "author": "fajrCode",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^5.21.0",
-    "@sentry/node": "^8.38.0",
-    "@sentry/profiling-node": "^8.38.0",
+    "@prisma/client": "^5.22.0",
+    "@sentry/node": "^8.33.0",
+    "@sentry/profiling-node": "^8.33.0",
+    "@opentelemetry/api": "1.8.0",
     "bcrypt": "^5.1.1",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",

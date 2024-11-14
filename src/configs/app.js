@@ -1,3 +1,5 @@
+import './instrument.js';
+import * as Sentry from '@sentry/node';
 import express from 'express';
 import logger from './logger.js';
 import ErrorHandler from '../middlewares/errorHandler.js';
@@ -15,8 +17,14 @@ app.set('view engine', 'ejs');
 // API Router
 apiV1(app);
 
-// error handling 404
+app.get("/debug-sentry", function mainHandler() {
+  throw new Error("Error for sentry!");
+});
+
+Sentry.setupExpressErrorHandler(app);
+
+// Error handling 404
 app.use(ErrorHandler.handle404);
 
-// Handle other error
+// Handle other errors
 app.use(ErrorHandler.handleError);
