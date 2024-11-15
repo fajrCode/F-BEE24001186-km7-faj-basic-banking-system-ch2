@@ -61,4 +61,14 @@ export default class AuthController {
         };
     };
 
+    forgotPassword = async (req, res) => {
+        try {
+            const result = await this.service.forgotPassword(req.body.email);
+            return this.response.res200("Forgot password success", result, res);
+        } catch (error) {
+            console.log(error.message);
+            return this.response.res500(res);
+        };
+    };
+
 };

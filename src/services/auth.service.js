@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../configs/database.js";
 import { Error400, Error404 } from "../utils/custom_error.js";
+import sendEmail from "../utils/nodemailer.js";
 
 export default class AuthService {
     constructor() {
@@ -98,4 +99,32 @@ export default class AuthService {
             throw new Error404("User is not found");
         };
     };
+
+    //forgot password with nodemailer
+    async forgotPassword(email) {
+        try {
+            // const user = await this._model.findUnique({
+            //     where: {
+            //         email,
+            //     },
+            // });
+
+            // if (!user) {
+            //     throw new Error400("Email is wrong");
+            // }
+
+            await sendEmail(email);
+
+            // send email with nodemailer
+            return { message: "Email has been sent" };
+        } catch (err) {
+            if (err instanceof Error400) {
+                throw new Error400(err.message);
+            } else {
+                console.log(err.message);
+                throw new Error("Internal Server Error");
+            }
+        }
+    }
+    
 };
