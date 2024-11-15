@@ -15,6 +15,7 @@ export default (app) => {
     app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     
     router.get('/', index.root);
+    router.get('/notification', index.notification);
     new AuthRoute(router);
     new UserRoute(router);
     new AccountRoute(router);
