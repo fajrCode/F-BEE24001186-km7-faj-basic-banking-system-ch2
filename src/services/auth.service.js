@@ -100,7 +100,6 @@ export default class AuthService {
         };
     };
 
-    //forgot password with nodemailer
     async forgotPassword(email) {
         try {
             // const user = await this._model.findUnique({
