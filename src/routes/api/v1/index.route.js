@@ -10,7 +10,9 @@ import AuthRoute from './auth.route.js';
 export default (app) => {
     const router = Router();
     const index = new IndexCtrl();
-  
+
+    app.get('/', index.welcome);
+    
     app.use('/api/v1', router);
     app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     

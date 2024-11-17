@@ -4,34 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Banking System Binar</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/images/favicon.ico" rel="icon">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/tailwind.min.js"></script>
   </head>
-  <body>
-    <h1>Hello World</h1>
-    <div id="data"></div>
+  <body class="bg-black text-white">
 
-    <script type="module">
-      // Menggunakan CDN socket.io-client versi ESM
-      import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-      const data = document.getElementById("data");
-      // Menginisialisasi koneksi ke server
-      const socket = io("ws://localhost:5000");
-
-      // Event ketika berhasil terhubung
-      socket.on("connect", () => {
-        console.log("Connected to server");
-      });
-
-      socket.on("notification", (msg) => {
-        console.log("Message:", msg.message);
-        data.appendChild(document.createElement("p")).textContent = msg.message;
-      });
-
-      // Event ketika ada error koneksi
-      socket.on("connect_error", (err) => {
-        console.error("Connection error:", err.message);
-      });
-    </script>
-  </body>
-</html>

@@ -1,35 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Banking System Binar</title>
-  </head>
-  <body>
-    <h1>Hello World</h1>
-    <div id="data"></div>
+<%- include('includes/header.ejs') %>
 
-    <script type="module">
-      // Menggunakan CDN socket.io-client versi ESM
-      import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-      const data = document.getElementById("data");
-      // Menginisialisasi koneksi ke server
-      const socket = io("ws://localhost:5000");
+<div class="container flex flex-col items-center justify-center h-screen">
+  <div class="bg-gray-500 w-4/5 sm:w-3/5 md:w-1/2 lg:w-1/3 p-4 rounded-lg h-[95%]">
+    <h1 class="text-3xl text-center">Notification</h1>
+    <div id="info" class="mt-5 py-1 text-sm flex flex-col gap-2 text-black h-[90%] overflow-y-scroll custom-scrollbar">
+    </div>
+  </div>
+</div>
 
-      // Event ketika berhasil terhubung
-      socket.on("connect", () => {
-        console.log("Connected to server");
-      });
+<script type="module">
+  // Menggunakan CDN socket.io-client versi ESM
+  import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+  const info = document.getElementById("info");
 
-      socket.on("notification", (msg) => {
-        console.log("Message:", msg.message);
-        data.appendChild(document.createElement("p")).textContent = msg.message;
-      });
+  // Menginisialisasi koneksi ke server
+  const socket = io("ws://localhost:5000");
 
-      // Event ketika ada error koneksi
-      socket.on("connect_error", (err) => {
-        console.error("Connection error:", err.message);
-      });
-    </script>
-  </body>
-</html>
+  // Event ketika berhasil terhubung
+  socket.on("connect", () => {
+    console.log("Connected to server");
+  });
+
+  socket.on("notif-success", (data) => {
+    const message = document.createElement('span');
+    message.className = 'w-fit px-5 py-1 rounded-lg bg-green-200';
+    message.textContent = data.message;
+    info.append(message);
+  });
+
+  socket.on("notif-failed", (data) => {
+    const message = document.createElement('span');
+    message.className = 'w-fit px-5 py-1 rounded-lg bg-red-200';
+    message.textContent = data.message;
+    info.append(message);
+  });
+
+  // Event ketika ada error koneksi
+  socket.on("connect_error", (err) => {
+    console.log("Connection error:", err.message);
+  });
+</script>
+
+<%- include('includes/header.ejs') %>
