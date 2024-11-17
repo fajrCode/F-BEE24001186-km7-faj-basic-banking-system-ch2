@@ -1,0 +1,14 @@
+/* Mengecilkan ukuran scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    /* Lebar scrollbar */
+    height: 7px;
+    /* Tinggi scrollbar, jika horizontal */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #383838;
+    /* Warna scrollbar thumb */
+    border-radius: 10px;
+    /* Radius agar lebih bulat */
+}
