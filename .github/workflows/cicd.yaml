@@ -32,23 +32,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      # Step 3: Install pnpm
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      # Step 4: Install dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       # Step 5: Lint code
       - name: Lint code
-        run: pnpm lint
+        run: npm lint
 
-      # # Step 6: Run tests
-      # - name: Run tests
-      #   env:
-      #     NODE_ENV: test
-      #   run: pnpm test
+      # Step 6: Run tests
+      - name: Run tests
+        env:
+          NODE_ENV: test
+        run: npm test
 
       # Step 7: Integrasion Coverage Codecov
       - name: Upload coverage to Codecov
@@ -76,13 +72,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      # Step 3: Install pnpm
-      - name: Install pnpm
-        run: npm install -g pnpm
+      # Step 3: Install npm
+      - name: Install npm
+        run: npm install -g npm
 
       # Step 4: Install dependencies
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       # Step 5: Deploy to App Engine
       - name: Google Cloud Auth
