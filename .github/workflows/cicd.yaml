@@ -38,13 +38,13 @@ jobs:
 
       # Step 5: Lint code
       - name: Lint code
-        run: npm lint
+        run: npm run lint
 
       # Step 6: Run tests
       - name: Run tests
         env:
           NODE_ENV: test
-        run: npm test
+        run: npm run test
 
       # Step 7: Integrasion Coverage Codecov
       - name: Upload coverage to Codecov
