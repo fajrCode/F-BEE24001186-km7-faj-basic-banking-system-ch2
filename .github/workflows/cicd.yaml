@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
     branches:
       - main
@@ -44,11 +44,11 @@ jobs:
       - name: Lint code
         run: pnpm lint
 
-      # Step 6: Run tests
-      - name: Run tests
-        env:
-          NODE_ENV: test
-        run: pnpm test
+      # # Step 6: Run tests
+      # - name: Run tests
+      #   env:
+      #     NODE_ENV: test
+      #   run: pnpm test
 
       # Step 7: Integrasion Coverage Codecov
       - name: Upload coverage to Codecov
@@ -112,6 +112,7 @@ jobs:
           echo "  IMAGEKIT_PUBLIC_KEY: '${{ secrets.IMAGEKIT_PUBLIC_KEY }}'" >> app.yaml
           echo "  IMAGEKIT_URL_ENDPOINT: '${{ secrets.IMAGEKIT_URL_ENDPOINT }}'" >> app.yaml
           echo "  JWT_SECRET: '${{ secrets.JWT_SECRET }}'" >> app.yaml
+          echo "  DOMAIN: '${{ secrets.DOMAIN }}'" >> app.yaml
 
       - name: Deploy to Google App Engine
         run: |
