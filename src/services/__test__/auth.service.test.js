@@ -14,6 +14,18 @@ jest.mock('../../configs/database.js', () => ({
     },
 }));
 
+jest.mock('../../utils/nodemailer.js', () => {
+    return jest.fn().mockImplementation(() => {
+        return {
+            sendMail: jest.fn().mockResolvedValue('Email sent')
+        }
+    });
+});
+
+jest.mock('../../configs/websocket.js', () => ({
+    getIoInstance: jest.fn(),
+}));
+
 describe('Testing Auth Service', () => {
     let authService;
     let mockData;
@@ -115,6 +127,23 @@ describe('Testing Auth Service', () => {
             prisma.user.findUnique.mockRejectedValue(new Error('Internal Server Error'));
 
             await expect(authService.authenticate(1)).rejects.toThrow(Error);
+        });
+    });
+
+    describe('Forgot Password', () => {
+        it('should throw error when forgot password failed', async () => {
+            prisma.user.findUnique.mockRejectedValue(new Error('Internal Server Error'));
+
+            await expect(authService.forgotPassword('fulan')).rejects.toThrow(Error);
+        });
+    });
+
+    describe('Reset Password', () => {
+        it('should throw error when reset password failed', async () => {
+            prisma.user.findUnique.mockResolvedValue(mockUser);
+            bcrypt.hash.mockRejectedValue(new Error('Internal Server Error'));
+
+            await expect(authService.resetPassword(1, 'password')).rejects.toThrow(Error);
         });
     });
 
