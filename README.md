@@ -21,7 +21,7 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 - GET /api/v1/users => menampilkan daftar users.
 - GET /api/v1/users/:userId => menampilkan detail informasi user (tampilkan juga profilnya).
 - PATCH /api/v1/users/:userId => melakukan update data users beserta profilenya.
-- PATCH /api/v1/users/upload/profile-image => melakukan update foto profile user. (NEW !!!)
+- PATCH /api/v1/users/upload/profile-image => melakukan update foto profile user.
 - POST /api/v1/accounts => menambahkan akun baru ke user yang sudah didaftarkan.
 - GET /api/v1/accounts => menampilkan daftar akun.
 - GET /api/v1/accounts/:accountId => menampilkan detail akun.
@@ -33,6 +33,10 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 - POST /api/v1/auth/register => melakukan registrasi user baru
 - GET /api/v1/auth/authenticate => melakukan pengecekan authentikasi, dengan return data user yang login
 - GET /api/v1/docs => menampilkan dokumentasi api
+- GET / => View Homepage (NEW !!!)
+- GET /api/v1/notification => View Notification for triger forgot and reset password. (NEW !!!)
+- POST /api/v1/auth/forgot-password/:token => Api for sending email reset password. (NEW !!!)
+- POST /api/v1/auth/reset-password => Api for reset password. (NEW !!!)
 
 ## Prerequisites
 - NodeJS V^16
