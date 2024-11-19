@@ -1,5 +1,5 @@
-// import './instrument.js';
-// import * as Sentry from '@sentry/node';
+import './instrument.js';
+import * as Sentry from '@sentry/node';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
@@ -27,7 +27,7 @@ app.get("/debug-sentry", function mainHandler() {
   throw new Error("Error for sentry!");
 });
 
-// Sentry.setupExpressErrorHandler(app);
+Sentry.setupExpressErrorHandler(app);
 
 // Error handling 404
 app.use(ErrorHandler.handle404);
