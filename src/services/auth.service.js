@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../configs/database.js";
 import { Error400, Error404 } from "../utils/custom_error.js";
+import sendEmail from "../utils/nodemailer.js";
+import { getIoInstance } from '../configs/websocket.js'; 
 
 export default class AuthService {
     constructor() {
@@ -98,4 +100,77 @@ export default class AuthService {
             throw new Error404("User is not found");
         };
     };
+
+    async forgotPassword(email) {
+        const io = getIoInstance();
+        try {
+            const user = await this._model.findUnique({
+                where: {
+                    email,
+                },
+            });
+
+            if (!user) {
+                throw new Error400("Email is wrong");
+            }
+
+            await sendEmail(email);
+
+            io.emit('notif-success', { message: `Success sending email reset password to ${email}` });
+            io.emit('welcome-message', { message: 'You have new notification bro' });
+
+            // send email with nodemailer
+            return { message: "Email has been sent" };
+        } catch (err) {
+            io.emit('notif-failed', { message: `Failed sending email reset password for ${email}` });
+            io.emit('welcome-message', { message: 'You have new notification bro' });
+            if (err instanceof Error400) {
+                throw new Error400(err.message);
+            } else {
+                console.log(err.message);
+                throw new Error("Internal Server Error");
+            }
+        }
+    }
+
+    async resetPassword(data) {
+        const io = getIoInstance();
+        try {
+            const user = await this._model.findUnique({
+                where: {
+                    email: data.email,
+                },
+            });
+
+            if (!user) {
+                throw new Error400("Email is wrong");
+            }
+
+            const password = await bcrypt.hash(data.password, 10);
+
+            await this._model.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    password,
+                },
+            });
+            
+            io.emit('notif-success', { message: `Success change password ${data.email}` });
+            io.emit('welcome-message', { message: 'You have new notification bro' });
+
+            return { message: "Password has been reset" };
+        } catch (err) {
+            io.emit('notif-failed', { message: `Failed change password ${data.email}` });
+            io.emit('welcome-message', { message: 'You have new notification bro' });
+            if (err instanceof Error400) {
+                throw new Error400(err.message);
+            } else {
+                console.log(err.message);
+                throw new Error("Internal Server Error");
+            }
+        }
+    }
+    
 };

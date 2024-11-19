@@ -1,11 +1,13 @@
 import "dotenv/config";
+import { app } from "./configs/app.js";
 import http from "http";
 import listEndpoints from 'express-list-endpoints';
-import { app } from "./configs/app.js";
+import { initializeWebSocket } from './configs/websocket.js';
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";
 const server = http.createServer(app);
+initializeWebSocket(server);
 
 try {
     if (process.env.NODE_ENV == "development") {

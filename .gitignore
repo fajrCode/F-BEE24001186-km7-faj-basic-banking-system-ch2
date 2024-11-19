@@ -7,3 +7,4 @@ pnpm-lock.yaml
 .env.production
 .env.development
 sa-fa-app-engine.json
+yarn.lock

@@ -5,6 +5,14 @@ import { Error400 } from '../../utils/custom_error.js';
 
 jest.mock('../../services/auth.service.js');
 
+jest.mock('../../utils/nodemailer.js', () => {
+    return jest.fn().mockImplementation(() => {
+        return {
+            sendMail: jest.fn().mockResolvedValue('Email sent')
+        }
+    });
+});
+
 describe('Testing Auth Controller', () => {
     let authController;
     let req;
