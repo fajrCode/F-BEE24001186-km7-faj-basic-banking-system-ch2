@@ -15,6 +15,7 @@ export default class AuthRoute {
         this.router.post(this.basepath + '/register', this.auth.checkLoginAuth, this.controller.register);
         this.router.get(this.basepath + '/authenticate', this.auth.authenticate, this.controller.authenticate);
         this.router.post(this.basepath + '/forgot-password', this.auth.checkLoginAuth, this.controller.forgotPassword);
+        this.router.get(this.basepath + '/reset-password/:token', this.auth.checkLoginAuth, this.controller.resetPasswordPage);
         this.router.post(this.basepath + '/reset-password', this.auth.checkLoginAuth, this.controller.resetPassword);
     }
 }

@@ -1,5 +1,5 @@
 import AuthService from "../services/auth.service.js";
-import { loginValidator, registerValidator } from "../validations/auth.validation.js";
+import { loginValidator, registerValidator, resetPasswordValidator } from "../validations/auth.validation.js";
 import ResponseHandler from "../utils/response.js";
 import { Error400 } from "../utils/custom_error.js";
 
@@ -71,9 +71,26 @@ export default class AuthController {
         };
     };
 
+    resetPasswordPage = async (req, res) => {
+        try {
+            const link = `${process.env.DOMAIN}/auth/reset-password`;
+            const email = Buffer.from(req.params.token, "base64").toString("ascii");
+            res.render('reset-password.ejs', { link, email });
+        } catch (error) {
+            console.log(error.message);
+            return this.response.res500(res);
+        };
+    };
+
     resetPassword = async (req, res) => {
         try {
-            const result = await this.service.resetPassword(req.body);
+            const { error, value } = resetPasswordValidator.validate(req.body);
+
+            if (error) {
+                throw new Error400(`${error.details[0].message}`);
+            }
+
+            const result = await this.service.resetPassword(value);
             return this.response.res200("Reset password success", result, res);
         } catch (error) {
             console.log(error.message);

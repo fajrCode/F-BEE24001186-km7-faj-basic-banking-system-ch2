@@ -35,8 +35,7 @@
         It seems like you requested a password reset. Click the button below to
         reset your password:
       </p>
-      <form action="<%= resetLink %>" method="post">
-        <input type="hidden" name="email" value="<%= email %>" />
+      <form action="<%= resetLink %>" method="get">
         <button type="submit" class="button">Reset Password</button>
       </form>
       <p>If you didn’t request a password reset, please ignore this email.</p>

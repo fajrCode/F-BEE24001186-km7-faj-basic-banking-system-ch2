@@ -21,13 +21,13 @@ const transporter = createTransport({
 // async..await is not allowed in global scope, must use a wrapper
 const sendEmail = async (destination) => {
     const email = Buffer.from(destination).toString("base64");
-    const resetLink = `${process.env.DOMAIN}/reset-password`;
+    const resetLink = `${process.env.DOMAIN}/auth/reset-password/${email}`;
 
     // Path ke file EJS template
     const templatePath = path.join(__dirname, '../views/mail-format.ejs');
 
     // Render EJS template dengan data
-    const emailContent = await ejs.renderFile(templatePath, { resetLink, email });
+    const emailContent = await ejs.renderFile(templatePath, { resetLink });
 
     // send mail with defined transport object
     const mailOption = {
