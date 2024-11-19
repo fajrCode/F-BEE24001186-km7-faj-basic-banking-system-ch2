@@ -125,5 +125,41 @@ export default class AuthService {
             }
         }
     }
+
+    async resetPassword(data) {
+        try {
+            const email = Buffer.from(data.email, "base64").toString("ascii");
+            console.log(email);
+            // const user = await this._model.findUnique({
+            //     where: {
+            //         email,
+            //     },
+            // });
+
+            // if (!user) {
+            //     throw new Error400("Email is wrong");
+            // }
+
+            // const password = await bcrypt.hash(data.password, 10);
+
+            // await this._model.update({
+            //     where: {
+            //         id: user.id,
+            //     },
+            //     data: {
+            //         password,
+            //     },
+            // });
+
+            return { message: "Password has been reset" };
+        } catch (err) {
+            if (err instanceof Error400) {
+                throw new Error400(err.message);
+            } else {
+                console.log(err.message);
+                throw new Error("Internal Server Error");
+            }
+        }
+    }
     
 };

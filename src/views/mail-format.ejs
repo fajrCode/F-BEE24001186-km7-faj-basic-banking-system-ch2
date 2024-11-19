@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reset Password</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        color: #fff;
+        background-color: #b602df;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Forgot Your Password?</h2>
+      <p>Hello, bro</p>
+      <p>
+        It seems like you requested a password reset. Click the button below to
+        reset your password:
+      </p>
+      <form action="<%= resetLink %>" method="post">
+        <input type="hidden" name="email" value="<%= email %>" />
+        <button type="submit" class="button">Reset Password</button>
+      </form>
+      <p>If you didn’t request a password reset, please ignore this email.</p>
+      <p>Thanks,</p>
+      <p>Binar Bank</p>
+    </div>
+  </body>
+</html>

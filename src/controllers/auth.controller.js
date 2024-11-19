@@ -71,4 +71,14 @@ export default class AuthController {
         };
     };
 
+    resetPassword = async (req, res) => {
+        try {
+            const result = await this.service.resetPassword(req.body);
+            return this.response.res200("Reset password success", result, res);
+        } catch (error) {
+            console.log(error.message);
+            return this.response.res500(res);
+        };
+    };
+
 };
