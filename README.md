@@ -33,7 +33,7 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 - POST /api/v1/auth/register => melakukan registrasi user baru
 - GET /api/v1/auth/authenticate => melakukan pengecekan authentikasi, dengan return data user yang login
 - GET /api/v1/docs => menampilkan dokumentasi api
-- GET / => View Homepage (NEW !!!)
+- GET / => View Homepage. (NEW !!!)
 - GET /api/v1/notification => View Notification for triger forgot and reset password. (NEW !!!)
 - POST /api/v1/auth/forgot-password/:token => Api for sending email reset password. (NEW !!!)
 - POST /api/v1/auth/reset-password => Api for reset password. (NEW !!!)
