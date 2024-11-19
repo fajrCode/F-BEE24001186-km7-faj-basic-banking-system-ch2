@@ -8,3 +8,4 @@ pnpm-lock.yaml
 .env.development
 sa-fa-app-engine.json
 yarn.lock
+gcr-sa.json
