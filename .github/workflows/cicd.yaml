@@ -46,13 +46,13 @@ jobs:
           NODE_ENV: test
         run: npm run test
 
-      # Step 7: Integrasion Coverage Codecov
+      # Step 7: Integrate Coverage with Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/lcov.info    # Jalur ke file lcov coverage, pastikan jalur ini benar
+          files: ./coverage/lcov.info    # Path to coverage file, ensure this path is correct
           flags: unittests
-          token: ${{ secrets.CODECOV_TOKEN }} # Hanya perlu untuk repositori private
+          token: ${{ secrets.CODECOV_TOKEN }} # Required for private repositories
           
   CD:
     runs-on: ubuntu-latest
@@ -62,54 +62,49 @@ jobs:
         node-version: [20]  # Test against multiple Node.js versions
 
     steps:
-      # Step 1: Check out the repository
-      - name: Check out repository
-        uses: actions/checkout@v4
+        # Step 1: Check out the repository
+        - name: Check out repository
+          uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
+        # Step 2: Set up Node.js
+        - name: Set up Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
 
-      # Step 3: Install npm
-      - name: Install npm
-        run: npm install -g npm
+        # Step 3: Install dependencies
+        - name: Install dependencies
+          run: npm install
 
-      # Step 4: Install dependencies
-      - name: Install dependencies
-        run: npm install
+        # Step 4: Google Cloud Authentication
+        - name: Authenticate to Google Cloud
+          uses: google-github-actions/auth@v2
+          with:
+            credentials_json: ${{ secrets.GCR_SA_KEY }}
 
-      # Step 5: Deploy to App Engine
-      - name: Google Cloud Auth
-        uses: 'google-github-actions/auth@v2'
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+        # Step 5: Set up Google Cloud SDK
+        - name: Set up Google Cloud SDK
+          uses: google-github-actions/setup-gcloud@v2
+          with:
+            project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Set up Cloud SDK
-        uses: 'google-github-actions/setup-gcloud@v2'
+        # Step 6: Configure Docker to use gcloud as a credential helper
+        - name: Configure Docker for GCR Authentication
+          run: gcloud auth configure-docker gcr.io
 
-      - name: Create app.yaml with Secrets
-        run: |
-          echo "runtime: nodejs" > app.yaml
-          echo "env: flex" >> app.yaml
-          echo "runtime_config:" >> app.yaml
-          echo "  operating_system: 'ubuntu22'" >> app.yaml
-          echo "  runtime_version: '20'" >> app.yaml
-          echo "automatic_scaling:" >> app.yaml
-          echo "  min_num_instances: 1" >> app.yaml
-          echo "  max_num_instances: 2" >> app.yaml
-          echo "beta_settings:" >> app.yaml
-          echo "  cloud_sql_instances: fajri-learning-workspace:asia-southeast1:pg-binar-fa" >> app.yaml
-          echo "env_variables:" >> app.yaml
-          echo "  DATABASE_URL: '${{ secrets.DATABASE_URL }}'" >> app.yaml
-          echo "  IMAGEKIT_PRIVATE_KEY: '${{ secrets.IMAGEKIT_PRIVATE_KEY }}'" >> app.yaml
-          echo "  IMAGEKIT_PUBLIC_KEY: '${{ secrets.IMAGEKIT_PUBLIC_KEY }}'" >> app.yaml
-          echo "  IMAGEKIT_URL_ENDPOINT: '${{ secrets.IMAGEKIT_URL_ENDPOINT }}'" >> app.yaml
-          echo "  JWT_SECRET: '${{ secrets.JWT_SECRET }}'" >> app.yaml
-          echo "  DOMAIN: '${{ secrets.DOMAIN }}'" >> app.yaml
+        # Step 7: Build and push Docker image to Google Container Registry (GCR)
+        - name: Build and Push Docker Image
+          run: |
+            IMAGE_NAME=gcr.io/${{ secrets.GCP_PROJECT_ID }}/api-bank-binar
+            docker build -t $IMAGE_NAME .
+            docker push $IMAGE_NAME
 
-      - name: Deploy to Google App Engine
-        run: |
-          gcloud app deploy app.yaml --quiet
+        # Step 8: Deploy to Cloud Run
+        - name: Deploy to Cloud Run
+          run: |
+            gcloud run deploy api-bank-binar \
+              --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/api-bank-binar \
+              --platform managed \
+              --region asia-southeast1 \
+              --allow-unauthenticated \
+              --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }},IMAGEKIT_PRIVATE_KEY=${{ secrets.IMAGEKIT_PRIVATE_KEY }},IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }},IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }},JWT_SECRET=${{ secrets.JWT_SECRET }},DOMAIN=${{ secrets.DOMAIN }},SENTRY_DSN=${{ secrets.SENTRY_DSN }},EMAIL_USER=${{ secrets.EMAIL_USER }},EMAIL_PASS=${{ secrets.EMAIL_PASS }}
