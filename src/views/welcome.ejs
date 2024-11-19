@@ -1,5 +1,46 @@
 <%- include('includes/header.ejs') %>
 
-<h1>Welcome brodie</h1>
+<div class="p-4 flex flex-col justify-center items-center h-screen gap-5">
+    <h1 class="text-3xl text-green-300">Welcome Brodie</h1>
+    <div class="flex w-1/2 gap-5 justify-center">
+        <a href="/api/v1/docs" class="text-black px-3 py-1 rounded-lg bg-green-300 hover:bg-green-200">API Documentation</a>
+        <a href="/api/v1/notification" class="text-black px-3 py-1 rounded-lg bg-green-300 hover:bg-green-200">
+          Notification
+        </a>
+    </div>
+</div>
+
+<div class="z-50">
+    <div class="fixed bottom-0 right-0 p-4">
+        <p id="welcome-msg" class="hidden px-3 py-1 rounded-lg bg-green-300 hover:bg-green-200 text-black"></p>
+    </div>
+</div>
+
+<script type="module">
+    // Menggunakan CDN socket.io-client versi ESM
+    import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+    const info = document.getElementById("welcome-msg");
+  
+    // Menginisialisasi koneksi ke server
+    const socket = io("ws://localhost:5000");
+  
+    // Event ketika berhasil terhubung
+    socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+  
+    socket.on("welcome-message", (data) => {
+      info.classList.remove("hidden");
+      info.innerHTML = data.message;
+      setTimeout(() => {
+        info.classList.add("hidden");
+      }, 2000);
+    });
+  
+    // Event ketika ada error koneksi
+    socket.on("connect_error", (err) => {
+      console.log("Connection error:", err.message);
+    });
+  </script>
 
 <%- include('includes/footer.ejs') %>

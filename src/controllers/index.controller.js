@@ -13,8 +13,10 @@ export class IndexCtrl {
 
     welcome = (req, res) => {
         const io = getIoInstance();
-        io.emit('notif-failed', { message: 'Failed from server!' });
-        res.render('welcome.ejs');
+        setTimeout(() => {
+            io.emit('welcome-message', { message: 'WELCOME BRODIE 🤩' });
+        }, 1000);
+        res.render('welcome.ejs', { msg: 'Welcome Brodie' });
     }
 
     notification = (req, res) => {
