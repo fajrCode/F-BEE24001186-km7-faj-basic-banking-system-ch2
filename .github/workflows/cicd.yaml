@@ -46,13 +46,13 @@ jobs:
           NODE_ENV: test
         run: npm run test
 
-      # Step 7: Integrasion Coverage Codecov
+      # Step 7: Integrate Coverage with Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/lcov.info    # Jalur ke file lcov coverage, pastikan jalur ini benar
+          files: ./coverage/lcov.info    # Path to coverage file, ensure this path is correct
           flags: unittests
-          token: ${{ secrets.CODECOV_TOKEN }} # Hanya perlu untuk repositori private
+          token: ${{ secrets.CODECOV_TOKEN }} # Required for private repositories
           
   CD:
     runs-on: ubuntu-latest
@@ -88,14 +88,18 @@ jobs:
           with:
             project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-        # Step 6: Build and push Docker image to Google Container Registry (GCR)
+        # Step 6: Configure Docker to use gcloud as a credential helper
+        - name: Configure Docker for GCR Authentication
+          run: gcloud auth configure-docker gcr.io
+
+        # Step 7: Build and push Docker image to Google Container Registry (GCR)
         - name: Build and Push Docker Image
           run: |
             IMAGE_NAME=gcr.io/${{ secrets.GCP_PROJECT_ID }}/api-bank-binar
             docker build -t $IMAGE_NAME .
             docker push $IMAGE_NAME
 
-        # Step 7: Deploy to Cloud Run
+        # Step 8: Deploy to Cloud Run
         - name: Deploy to Cloud Run
           run: |
             gcloud run deploy api-bank-binar \
@@ -103,4 +107,4 @@ jobs:
               --platform managed \
               --region asia-southeast1 \
               --allow-unauthenticated \
-              --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }},IMAGEKIT_PRIVATE_KEY=${{ secrets.IMAGEKIT_PRIVATE_KEY }},IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }},IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }},JWT_SECRET=${{ secrets.JWT_SECRET }},DOMAIN=${{ secrets.DOMAIN }}
+              --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }},IMAGEKIT_PRIVATE_KEY=${{ secrets.IMAGEKIT_PRIVATE_KEY }},IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }},IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }},JWT_SECRET=${{ secrets.JWT_SECRET }},DOMAIN=${{ secrets.DOMAIN }},SENTRY_DSN=${{ secrets.SENTRY_DSN }},EMAIL_USER=${{ secrets.EMAIL_USER }},EMAIL_PASS=${{ secrets.EMAIL_PASS }}
