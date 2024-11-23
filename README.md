@@ -61,4 +61,4 @@ Studi Kasus Challenge 4 Binar Backend Javascripts. Dalam studi kasus ini, kita a
 ```npm run dev``` or ```pnpm dev```
 
 ---
-Happy coding (❁´◡`❁).
+Happy coding (❁´◡`❁)
